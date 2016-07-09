@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<gfx-xform version="1">
+	<input file="img/sprite.data" type="raw" tile-width="8" tile-height="8" width="104" height="8" />
+	<output file="data/sprite.inc">
+		<tiles var-name="gfxTilesSprite" />
+		<maps pointers-size="8">
+			<!--<map var-name="gfxMapSpriteBlank" left="12" top="0" width="1" height="1" />-->
+		</maps>
+	</output>
+</gfx-xform>

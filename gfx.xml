@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<gfx-xform version="1">
+	<input file="img/gfx.data" type="raw" tile-width="8" tile-height="8" width="288" height="96" />
+	<output file="data/gfx.inc">
+		<tiles var-name="gfxTiles" />
+		<maps pointers-size="8">
+			<map var-name="gfxPlayerA" left="0" top="2" width="2" height="2" />
+			<map var-name="gfxPlayerB" left="2" top="2" width="2" height="2" />
+			<map var-name="gfxVirusCloseGreen" left="4" top="2" width="2" height="2" />
+			<map var-name="gfxVirusCloseBlue" left="6" top="2" width="2" height="2" />
+			<map var-name="gfxVirusCloseRed" left="8" top="2" width="2" height="2" />
+			<map var-name="gfxVirusCloseYellow" left="10" top="2" width="2" height="2" />
+			<map var-name="gfxVirusClosePurple" left="12" top="2" width="2" height="2" />
+			<map var-name="gfxVirusCloseCyan" left="14" top="2" width="2" height="2" />
+
+			<map var-name="gfxBorderGreenLeft" left="0" top="4" width="2" height="8" />
+			<map var-name="gfxBorderGreenRight" left="3" top="4" width="2" height="8" />
+			<map var-name="gfxBorderBlueLeft" left="6" top="4" width="2" height="8" />
+			<map var-name="gfxBorderBlueRight" left="9" top="4" width="2" height="8" />
+			<map var-name="gfxBorderRedLeft" left="12" top="4" width="2" height="8" />
+			<map var-name="gfxBorderRedRight" left="15" top="4" width="2" height="8" />
+			<map var-name="gfxBorderYellowLeft" left="18" top="4" width="2" height="8" />
+			<map var-name="gfxBorderYellowRight" left="21" top="4" width="2" height="8" />
+			<map var-name="gfxBorderPurpleLeft" left="24" top="4" width="2" height="8" />
+			<map var-name="gfxBorderPurpleRight" left="27" top="4" width="2" height="8" />
+			<map var-name="gfxBorderCyanLeft" left="30" top="4" width="2" height="8" />
+			<map var-name="gfxBorderCyanRight" left="33" top="4" width="2" height="8" />
+
+			<map var-name="gfxMapBlank8" left="0" top="0" width="1" height="1" />
+		</maps>
+	</output>
+</gfx-xform>
