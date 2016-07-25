@@ -3,7 +3,7 @@
 #include <avr/pgmspace.h>
 #include <uzebox.h>
 
-#include "data/gfx.inc"
+#include "gfx.h"
 
 int main() {
 	//srand(time(NULL));
