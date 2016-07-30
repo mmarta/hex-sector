@@ -5,6 +5,7 @@
 #include "gfx.h"
 
 extern u8 playerLocation, playerLives, playerTime, playerDieTime;
+extern unsigned long playerScore;
 
 void playerStart();
 void playerInput();

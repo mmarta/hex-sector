@@ -4,6 +4,7 @@
 #include <uzebox.h>
 
 #include "gfx.h"
+#include "player.h"
 
 int main() {
 	//srand(time(NULL));
@@ -14,7 +15,11 @@ int main() {
 	//SetSpriteVisibility(1);
 	ClearVram();
 
+	playerStart();
+
 	while(1) {
 		WaitVsync(1);
+		playerInput();
+		playerUpdate();
 	}
 }

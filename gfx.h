@@ -32,5 +32,8 @@ extern const char gfxBorderCyanLeft[];
 extern const char gfxBorderCyanRight[];
 
 extern const char gfxMapBlank8[];
+extern const char gfxMapBlank16[];
+extern const char gfxMapBigBlank[];
+extern const char gfxMapLongBlank[];
 
 #endif
