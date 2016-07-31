@@ -14,7 +14,7 @@ UZEBIN_DIR=../../uzebox/tools/packrom/
 ## Kernel settings
 KERNEL_DIR = ../../uzebox/kernel
 KERNEL_OPTIONS  = -DVIDEO_MODE=3 -DINTRO_LOGO=0
-KERNEL_OPTIONS +=  -DSCROLLING=0 -DMAX_SPRITES=8 -DRAM_TILES_COUNT=32 -DTRANSLUCENT_COLOR=0x00
+KERNEL_OPTIONS +=  -DSCROLLING=0 -DMAX_SPRITES=20 -DRAM_TILES_COUNT=32 -DTRANSLUCENT_COLOR=0x00
 #KERNEL_OPTIONS += -DOVERLAY_LINES=4 -DVRAM_TILES_V=24
 
 ## Options common to compile, link and assembly rules
@@ -47,7 +47,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Objects that must be built in order to link
-OBJECTS = uzeboxVideoEngineCore.o uzeboxCore.o uzeboxSoundEngine.o uzeboxSoundEngineCore.o uzeboxVideoEngine.o gfx.o player.o main.o
+OBJECTS = uzeboxVideoEngineCore.o uzeboxCore.o uzeboxSoundEngine.o uzeboxSoundEngineCore.o uzeboxVideoEngine.o gfx.o shot.o player.o main.o
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS =
@@ -77,6 +77,9 @@ uzeboxVideoEngine.o: $(KERNEL_DIR)/uzeboxVideoEngine.c
 ## Compile game sources
 gfx.o: gfx.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o gfx.o
+
+shot.o: shot.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o shot.o
 
 player.o: player.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o player.o

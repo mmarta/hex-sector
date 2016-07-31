@@ -1,10 +1,9 @@
 #ifndef GFX_H
 #define GFX_H
 
-#include <avr/io.h>
-#include <stdlib.h>
-#include <avr/pgmspace.h>
-#include <uzebox.h>
+#include "const.h"
+
+//Standard GFX tiles
 
 extern const char gfxTiles[];
 
@@ -35,5 +34,22 @@ extern const char gfxMapBlank8[];
 extern const char gfxMapBlank16[];
 extern const char gfxMapBigBlank[];
 extern const char gfxMapLongBlank[];
+
+//Sprite tiles
+
+extern const char gfxTilesSprite[];
+
+extern const char gfxMapSpriteBlank[];
+
+extern const char gfxSpriteShotLarge[];
+extern const char gfxSpriteShotMedium[];
+extern const char gfxSpriteShotSmall[];
+extern const char gfxSpriteShotTiny[];
+
+//Sprite memory for shots
+
+extern u8 gfxIndexSpriteShot[];
+
+void gfxLoadIndexSprite();
 
 #endif

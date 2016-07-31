@@ -4,16 +4,20 @@
 #include <uzebox.h>
 
 #include "gfx.h"
+#include "shot.h"
 #include "player.h"
 
 int main() {
+	u8 i;
 	//srand(time(NULL));
 
 	//Set the tile table and clear.
 	SetTileTable(gfxTiles);
-	//SetSpritesTileTable(gfxTilesSprite);
-	//SetSpriteVisibility(1);
 	ClearVram();
+
+	SetSpritesTileTable(gfxTilesSprite);
+	SetSpriteVisibility(1);
+	gfxLoadIndexSprite();
 
 	playerStart();
 
@@ -21,5 +25,11 @@ int main() {
 		WaitVsync(1);
 		playerInput();
 		playerUpdate();
+
+		i = 0;
+		while(i < (SHOT_TOTAL >> 1)) {
+			shotUpdate(i);
+			i++;
+		}
 	}
 }
