@@ -46,7 +46,7 @@ void playerStart() {
 
 void playerInput() {
 	u8 i = SHOT_TOTAL >> 1;
-	int pad = ReadJoypad(0);
+	unsigned int pad = ReadJoypad(0);
 
 	if(pad & BTN_LEFT) {
 		if(!playerLeftB && playerLocationTime == 0) {
@@ -132,9 +132,9 @@ void playerDraw() {
 	}
 
 	if(playerTime < 4) {
-		DrawMap(14, 24, gfxPlayerA);
+		DrawMap(PLAYER_X, PLAYER_Y, gfxPlayerA);
 	} else {
-		DrawMap(14, 24, gfxPlayerB);
+		DrawMap(PLAYER_X, PLAYER_Y, gfxPlayerB);
 	}
 }
 
@@ -144,8 +144,8 @@ void playerDrawStats() {
 
 void playerDrawLocation() {
 	if(playerLocationTime == 0) {
-		DrawMap(1, 6, gfxMapBigBlank);
-		DrawMap(23, 6, gfxMapBigBlank);
+		DrawMap(1, BG_Y, gfxMapBigBlank);
+		DrawMap(23, BG_Y, gfxMapBigBlank);
 
 		//Draw two of the same view map
 		switch(playerLocation) {
@@ -155,10 +155,10 @@ void playerDrawLocation() {
 				DrawMap(8, BG_Y + 8, gfxBorderGreenLeft);
 				DrawMap(19, BG_Y + 8, gfxBorderGreenRight);
 
-				Print(9, 27, greenString);
-				Print(15, 27, sectorString);
-				Print(3, 26, cyanString);
-				Print(23, 26, blueString);
+				Print(9, PLAYER_Y + 3, greenString);
+				Print(15, PLAYER_Y + 3, sectorString);
+				Print(3, PLAYER_Y + 2, cyanString);
+				Print(23, PLAYER_Y + 2, blueString);
 				break;
 			case LOCATION_BLUE:
 				DrawMap(11, BG_Y, gfxBorderBlueLeft);
@@ -166,10 +166,10 @@ void playerDrawLocation() {
 				DrawMap(8, BG_Y + 8, gfxBorderBlueLeft);
 				DrawMap(19, BG_Y + 8, gfxBorderBlueRight);
 
-				Print(9, 27, blueString);
-				Print(15, 27, sectorString);
-				Print(3, 26, greenString);
-				Print(24, 26, redString);
+				Print(9, PLAYER_Y + 3, blueString);
+				Print(15, PLAYER_Y + 3, sectorString);
+				Print(3, PLAYER_Y + 2, greenString);
+				Print(24, PLAYER_Y + 2, redString);
 				break;
 			case LOCATION_RED:
 				DrawMap(11, BG_Y, gfxBorderRedLeft);
@@ -177,10 +177,10 @@ void playerDrawLocation() {
 				DrawMap(8, BG_Y + 8, gfxBorderRedLeft);
 				DrawMap(19, BG_Y + 8, gfxBorderRedRight);
 
-				Print(10, 27, redString);
-				Print(14, 27, sectorString);
-				Print(3, 26, blueString);
-				Print(21, 26, yellowString);
+				Print(10, PLAYER_Y + 3, redString);
+				Print(14, PLAYER_Y + 3, sectorString);
+				Print(3, PLAYER_Y + 2, blueString);
+				Print(21, PLAYER_Y + 2, yellowString);
 				break;
 			case LOCATION_YELLOW:
 				DrawMap(11, BG_Y, gfxBorderYellowLeft);
@@ -188,10 +188,10 @@ void playerDrawLocation() {
 				DrawMap(8, BG_Y + 8, gfxBorderYellowLeft);
 				DrawMap(19, BG_Y + 8, gfxBorderYellowRight);
 
-				Print(8, 27, yellowString);
-				Print(16, 27, sectorString);
-				Print(3, 26, redString);
-				Print(21, 26, purpleString);
+				Print(8, PLAYER_Y + 3, yellowString);
+				Print(16, PLAYER_Y + 3, sectorString);
+				Print(3, PLAYER_Y + 2, redString);
+				Print(21, PLAYER_Y + 2, purpleString);
 				break;
 			case LOCATION_PURPLE:
 				DrawMap(11, BG_Y, gfxBorderPurpleLeft);
@@ -199,10 +199,10 @@ void playerDrawLocation() {
 				DrawMap(8, BG_Y + 8, gfxBorderPurpleLeft);
 				DrawMap(19, BG_Y + 8, gfxBorderPurpleRight);
 
-				Print(8, 27, purpleString);
-				Print(16, 27, sectorString);
-				Print(3, 26, yellowString);
-				Print(23, 26, cyanString);
+				Print(8, PLAYER_Y + 3, purpleString);
+				Print(16, PLAYER_Y + 3, sectorString);
+				Print(3, PLAYER_Y + 2, yellowString);
+				Print(23, PLAYER_Y + 2, cyanString);
 				break;
 			default:
 				DrawMap(11, BG_Y, gfxBorderCyanLeft);
@@ -210,19 +210,19 @@ void playerDrawLocation() {
 				DrawMap(8, BG_Y + 8, gfxBorderCyanLeft);
 				DrawMap(19, BG_Y + 8, gfxBorderCyanRight);
 
-				Print(9, 27, cyanString);
-				Print(15, 27, sectorString);
-				Print(3, 26, purpleString);
-				Print(22, 26, greenString);
+				Print(9, PLAYER_Y + 3, cyanString);
+				Print(15, PLAYER_Y + 3, sectorString);
+				Print(3, PLAYER_Y + 2, purpleString);
+				Print(22, PLAYER_Y + 2, greenString);
 		}
 
-		Print(1, 26, leftArrowString);
-		Print(28, 26, rightArrowString);
+		Print(1, PLAYER_Y + 2, leftArrowString);
+		Print(28, PLAYER_Y + 2, rightArrowString);
 	} else if(playerLocationTime == 2) {
 		//Draw one map in one color, and the other in the previous
-		DrawMap(8, 6, gfxMapBigBlank);
-		DrawMap(16, 6, gfxMapBigBlank);
-		DrawMap(0, 26, gfxMapLongBlank);
+		DrawMap(8, BG_Y, gfxMapBigBlank);
+		DrawMap(16, BG_Y, gfxMapBigBlank);
+		DrawMap(0, PLAYER_Y + 2, gfxMapLongBlank);
 
 		switch(playerLocation) {
 			case LOCATION_GREEN:
@@ -281,8 +281,8 @@ void playerDrawLocation() {
 		}
 	} else {
 		//Draw one map in one color, and the other in the previous
-		DrawMap(1, 6, gfxMapBigBlank);
-		DrawMap(23, 6, gfxMapBigBlank);
+		DrawMap(1, BG_Y, gfxMapBigBlank);
+		DrawMap(23, BG_Y, gfxMapBigBlank);
 
 		switch(playerLocation) {
 			case LOCATION_GREEN:

@@ -13,10 +13,10 @@
 #define LOCATION_PURPLE 4
 #define LOCATION_CYAN 5
 
-#define BG_Y 6
+#define BG_Y 5
 
 #define PLAYER_X 14
-#define PLAYER_Y 24
+#define PLAYER_Y 22
 
 #define SHOT_TOTAL 6
 
