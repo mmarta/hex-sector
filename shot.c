@@ -32,7 +32,7 @@ void shotUpdate(u8 i) {
 		if(shotY[i] < (BG_Y << 3)) {
 			shotFree(i);
 		} else {
-			if(shotY[i] < 66) {
+			if(shotY[i] < 54) {
 				if(shotSize[i] == 1) {
 					shotSize[i]--;
 					shotXA[i]++;
