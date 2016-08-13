@@ -3,7 +3,7 @@
 #include "data/gfx.inc"
 
 const char gfxMapBlank16[] PROGMEM ={
-2,82
+2,2
 ,0x0,0x0,0x0,0x0
 };
 

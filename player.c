@@ -2,6 +2,7 @@
 
 u8 playerLocation, playerLives, playerTime, playerDieTime;
 unsigned long playerScore;
+u8 playerRedrawTick = 0;
 
 //Internal vars
 u8 playerLastLocation, playerLocationTime;
@@ -53,6 +54,7 @@ void playerInput() {
 			playerLastLocation = playerLocation;
 			playerLocation--;
 			playerLocationTime = 1;
+			playerRedrawTick = 1;
 			if(playerLocation == 255) {
 				playerLocation = LOCATION_CYAN;
 			}
@@ -72,6 +74,7 @@ void playerInput() {
 			playerLastLocation = playerLocation;
 			playerLocation++;
 			playerLocationTime = 1;
+			playerRedrawTick = 1;
 			if(playerLocation == 6) {
 				playerLocation = LOCATION_GREEN;
 			}
@@ -114,6 +117,7 @@ void playerUpdate() {
 				playerDrawLocation();
 			} else if(playerLocationTime >= 14) {
 				playerLocationTime = 0;
+				playerRedrawTick = 1;
 				playerDrawLocation();
 			}
 		}

@@ -20,6 +20,10 @@
 
 #define SHOT_TOTAL 6
 
+#define VIRUS_POOL_TOTAL 6
+#define VIRUS_X 14
+#define VIRUS_NEXT_MOVE_START 32
+
 #define SPRITE_TOTAL 20
 
 #endif

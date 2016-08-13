@@ -6,9 +6,12 @@
 #include "gfx.h"
 #include "shot.h"
 #include "player.h"
+#include "virus.h"
 
 u8 credits = 0, inputB[] = {0, 0, 0, 0};
 const char creditString[] PROGMEM = "CREDIT";
+
+u8 tick = 0;
 
 void checkCoinStart();
 void addCoin();
@@ -29,16 +32,34 @@ int main() {
 	PrintByte(18, 27, credits, 0);
 	Print(11, 27, creditString);
 
+
 	while(1) {
 		WaitVsync(1);
 		checkCoinStart();
+
+		if(!tick) {
+			virusInit(rand() % 6);
+		}
+
+
 		playerInput();
 		playerUpdate();
+		i = 0;
+		while(i < VIRUS_POOL_TOTAL) {
+			virusUpdate(i);
+			i++;
+		}
+		playerRedrawTick = 0;
 
 		i = 0;
 		while(i < (SHOT_TOTAL >> 1)) {
 			shotUpdate(i);
 			i++;
+		}
+
+		tick++;
+		if(tick >= 180) {
+			tick = 0;
 		}
 	}
 }
