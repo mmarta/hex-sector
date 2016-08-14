@@ -1,37 +1,48 @@
 #include "vqueue.h"
 
-u8 vQueueColor[V_QUEUE_LENGTH], vQueueTime[V_QUEUE_LENGTH], vQueueNextSpot = 0;
+u8 vQueueColor[V_QUEUE_LENGTH], vQueueTime[V_QUEUE_LENGTH], vQueueNextSpot = 0, vQueueFront = 0, vQueueSize = 0;
 
 void vQueueDequeue();
 
 void vQueueEnqueue(u8 vColor, u8 vTime) {
-	if(vQueueNextSpot >= V_QUEUE_LENGTH) {
+	if(vQueueSize == V_QUEUE_LENGTH) {
 		return; //Can't enqueue, queue is full
 	}
 
 	vQueueColor[vQueueNextSpot] = vColor;
 	vQueueTime[vQueueNextSpot] = vTime;
+
 	vQueueNextSpot++;
+	if(vQueueNextSpot >= V_QUEUE_LENGTH) {
+		vQueueNextSpot = 0;
+	}
+	vQueueSize++;
 }
 
 void vQueueCycle() {
-	u8 i = 0;
-	while(i < vQueueNextSpot) {
-		if(vQueueTime[i] == 0) {
+	u8 i = 0, next = vQueueFront;
+	while(i < vQueueSize) {
+		if(vQueueTime[next] == 0) {
 			vQueueDequeue();
-		} else {
-			i++;
+		}
+		i++;
+		next++;
+		if(next >= V_QUEUE_LENGTH) {
+			next = 0;
 		}
 	}
 }
 
 void vQueueDequeue() {
-	u8 i = 0;
-	virusInit(vQueueColor[0]);
-	while(i < vQueueNextSpot - 1) {
-		vQueueColor[i] = vQueueColor[i + 1];
-		vQueueTime[i] = vQueueTime[i + 1];
-		i++;
+	if(vQueueSize == 0) {
+		return; //Can't dequeue, queue is empty
 	}
-	vQueueNextSpot--;
+
+	virusInit(vQueueColor[vQueueFront]);
+
+	vQueueFront++;
+	if(vQueueFront >= V_QUEUE_LENGTH) {
+		vQueueFront = 0;
+	}
+	vQueueSize--;
 }
