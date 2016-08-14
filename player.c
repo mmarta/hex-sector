@@ -24,6 +24,7 @@ void playerFire();
 void playerDraw();
 void playerDrawLocation();
 void playerDrawStats();
+u8 playerCheckAllShotsFree();
 
 void playerStart() {
 	playerLocation = LOCATION_GREEN;
@@ -50,7 +51,7 @@ void playerInput() {
 	unsigned int pad = ReadJoypad(0);
 
 	if(pad & BTN_LEFT) {
-		if(!playerLeftB && playerLocationTime == 0) {
+		if(!playerLeftB && playerLocationTime == 0 && playerCheckAllShotsFree()) {
 			playerLastLocation = playerLocation;
 			playerLocation--;
 			playerLocationTime = 1;
@@ -70,7 +71,7 @@ void playerInput() {
 	}
 
 	if(pad & BTN_RIGHT) {
-		if(!playerRightB && playerLocationTime == 0) {
+		if(!playerRightB && playerLocationTime == 0 && playerCheckAllShotsFree()) {
 			playerLastLocation = playerLocation;
 			playerLocation++;
 			playerLocationTime = 1;
@@ -124,9 +125,27 @@ void playerUpdate() {
 	}
 }
 
+void playerAddScore(u16 score) {
+	playerScore += score;
+	PrintLong(7, 1, playerScore);
+}
+
 //Shoot!
 void playerFire() {
 	shotInit();
+}
+
+//Check if all shots are free
+u8 playerCheckAllShotsFree() {
+	u8 i = 0;
+	while(i < SHOT_TOTAL >> 1) {
+		if(shotActive[i]) {
+			return 0;
+		}
+		i++;
+	}
+
+	return 1;
 }
 
 //Drawing function-sections

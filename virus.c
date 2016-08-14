@@ -66,7 +66,8 @@ void virusUpdate(u8 i) {
 }
 
 void virusDestroy(u8 i) {
-
+	virusErase(i);
+	virusActive[i] = 0;
 }
 
 void virusErase(u8 i) {

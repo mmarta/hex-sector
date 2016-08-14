@@ -19,10 +19,14 @@
 #define PLAYER_Y 22
 
 #define SHOT_TOTAL 6
+#define SHOT_HEIGHT 8
 
 #define VIRUS_POOL_TOTAL 6
 #define VIRUS_X 14
+#define VIRUS_HEIGHT 16
 #define VIRUS_NEXT_MOVE_START 32
+
+#define V_QUEUE_LENGTH 8
 
 #define SPRITE_TOTAL 20
 

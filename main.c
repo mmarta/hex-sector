@@ -7,6 +7,7 @@
 #include "shot.h"
 #include "player.h"
 #include "virus.h"
+#include "vqueue.h"
 
 u8 credits = 0, inputB[] = {0, 0, 0, 0};
 const char creditString[] PROGMEM = "CREDIT";
@@ -14,6 +15,8 @@ const char creditString[] PROGMEM = "CREDIT";
 u8 tick = 0;
 
 void checkCoinStart();
+void runAllCollisions();
+u8 checkCollision(u8, u8, u8, u8);
 void addCoin();
 
 int main() {
@@ -35,13 +38,19 @@ int main() {
 
 	while(1) {
 		WaitVsync(1);
-		checkCoinStart();
 
+		//Temp tick code
 		if(!tick) {
-			virusInit(rand() % 6);
+			vQueueEnqueue(rand() % 6, 0);
+			vQueueEnqueue(rand() % 6, 40);
 		}
 
+		//Check collisions first
+		runAllCollisions();
 
+		//Update & inputs
+		checkCoinStart();
+		vQueueCycle(); //Any viruses to initialize?
 		playerInput();
 		playerUpdate();
 		i = 0;
@@ -51,12 +60,14 @@ int main() {
 		}
 		playerRedrawTick = 0;
 
+		//Sprite updates come next
 		i = 0;
 		while(i < (SHOT_TOTAL >> 1)) {
 			shotUpdate(i);
 			i++;
 		}
 
+		//Temp ticks
 		tick++;
 		if(tick >= 180) {
 			tick = 0;
@@ -64,6 +75,51 @@ int main() {
 	}
 }
 
+//Runs through all collisions
+void runAllCollisions() {
+	u8 i, j;
+
+	i = 0;
+	while(i < VIRUS_POOL_TOTAL) {
+		if(!virusActive[i] || playerLocation != virusLocation[i]) {
+			i++;
+			continue;
+		}
+
+		j = 0;
+		while(j < SHOT_TOTAL >> 1) {
+			if(!shotActive[j]) {
+				j++;
+				continue;
+			}
+
+			if(checkCollision(virusY[i] << 3, VIRUS_HEIGHT, shotY[j], SHOT_HEIGHT)) {
+				shotFree(j);
+				virusDestroy(i);
+				if(virusY[i] <= 10) {
+					playerAddScore(100);
+				} else if(virusY[i] <= 14) {
+					playerAddScore(200);
+				} else {
+					playerAddScore(400);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+//checks a single collision
+u8 checkCollision(u8 y1, u8 h1, u8 y2, u8 h2) {
+	if(y1 + h1 >= y2 && y1 < y2 + h2) {
+		return 1;
+	}
+
+	return 0;
+}
+
+//Checks coin up & player start inputs
 void checkCoinStart() {
 	unsigned int padA = ReadJoypad(0);
 	unsigned int padB = ReadJoypad(1);
@@ -113,6 +169,7 @@ void checkCoinStart() {
 	}
 }
 
+//Adds a coin
 void addCoin() {
 	if(credits < 9) {
 		credits++;
