@@ -20,6 +20,8 @@ const char yellowString[] PROGMEM = "YELLOW";
 const char purpleString[] PROGMEM = "PURPLE";
 const char cyanString[] PROGMEM = "CYAN";
 
+const char readyString[] PROGMEM = "READY!";
+
 void playerFire();
 void playerDraw();
 void playerDrawLocation();
@@ -31,12 +33,11 @@ void playerStart() {
 	playerLives = 3;
 	playerTime = 0;
 	playerDieTime = 0;
+	playerLocationTime = 0;
 
 	playerLeftB = 0;
 	playerRightB = 0;
 	playerFireB = 0;
-
-	playerLocationTime = 0;
 
 	playerScore = 0;
 
@@ -48,7 +49,13 @@ void playerStart() {
 
 void playerInput() {
 	u8 i = SHOT_TOTAL >> 1;
-	unsigned int pad = ReadJoypad(0);
+	unsigned int pad;
+
+	if(playerDieTime > 0) {
+		return; //No input if player is dying.
+	}
+
+	pad = ReadJoypad(0);
 
 	if(pad & BTN_LEFT) {
 		if(!playerLeftB && playerLocationTime == 0 && playerCheckAllShotsFree()) {
@@ -101,6 +108,8 @@ void playerInput() {
 }
 
 void playerUpdate() {
+	u8 i;
+
 	if(playerDieTime == 0) {
 		playerTime++;
 		if(playerTime >= 8) {
@@ -122,7 +131,52 @@ void playerUpdate() {
 				playerDrawLocation();
 			}
 		}
+	} else {
+		if(playerDieTime <= 17) {
+			switch(playerDieTime) {
+				case 1:
+				case 5:
+				case 9:
+				case 13:
+				case 17:
+					playerDraw();
+					break;
+			}
+		} else if(playerDieTime == 30) {
+			playerLocationTime = 0;
+			playerLives--;
+			DrawMap(1, BG_Y, gfxMapBigBlank);
+			DrawMap(8, BG_Y, gfxMapBigBlank);
+			DrawMap(16, BG_Y, gfxMapBigBlank);
+			DrawMap(23, BG_Y, gfxMapBigBlank);
+
+			DrawMap(0, PLAYER_Y + 2, gfxMapLongBlank);
+			Print(12, 13, readyString);
+
+			//Clear shots
+			i = 0;
+			while(i < SHOT_TOTAL >> 1) {
+				if(shotActive[i]) {
+					shotFree(i);
+				}
+				i++;
+			}
+		} else if(playerDieTime == 120) {
+			playerDieTime = 0;
+			playerTime = 0;
+
+			DrawMap(0, 13, gfxMapLongBlank);
+			playerDraw();
+			playerDrawLocation();
+			return;
+		}
+
+		playerDieTime++;
 	}
+}
+
+void playerKill() {
+	playerDieTime = 1;
 }
 
 void playerAddScore(u16 score) {
@@ -151,6 +205,22 @@ u8 playerCheckAllShotsFree() {
 //Drawing function-sections
 void playerDraw() {
 	if(playerDieTime > 0) {
+		switch(playerDieTime) {
+			case 1:
+				DrawMap(PLAYER_X, PLAYER_Y, gfxPlayerDieA);
+				break;
+			case 5:
+				DrawMap(PLAYER_X, PLAYER_Y, gfxPlayerDieB);
+				break;
+			case 9:
+				DrawMap(PLAYER_X, PLAYER_Y, gfxPlayerDieC);
+				break;
+			case 13:
+				DrawMap(PLAYER_X, PLAYER_Y, gfxPlayerDieD);
+				break;
+			default:
+				DrawMap(PLAYER_X, PLAYER_Y, gfxMapBlank16);
+		}
 		return;
 	}
 
@@ -166,17 +236,19 @@ void playerDrawStats() {
 }
 
 void playerDrawLocation() {
+	u8 i = 0;
 	if(playerLocationTime == 0) {
-		DrawMap(1, BG_Y, gfxMapBigBlank);
-		DrawMap(23, BG_Y, gfxMapBigBlank);
+		DrawMap(0, BG_Y, gfxMapBigBlank);
+		DrawMap(22, BG_Y, gfxMapBigBlank);
 
 		//Draw two of the same view map
 		switch(playerLocation) {
 			case LOCATION_GREEN:
-				DrawMap(11, BG_Y, gfxBorderGreenLeft);
-				DrawMap(16, BG_Y, gfxBorderGreenRight);
-				DrawMap(8, BG_Y + 8, gfxBorderGreenLeft);
-				DrawMap(19, BG_Y + 8, gfxBorderGreenRight);
+				while(i < 8) {
+					DrawMap(13 - i, BG_Y + (i << 1), gfxBorderGreenLeft);
+					DrawMap(16 + i, BG_Y + (i << 1), gfxBorderGreenRight);
+					i++;
+				}
 
 				Print(9, PLAYER_Y + 3, greenString);
 				Print(15, PLAYER_Y + 3, sectorString);
@@ -184,10 +256,11 @@ void playerDrawLocation() {
 				Print(23, PLAYER_Y + 2, blueString);
 				break;
 			case LOCATION_BLUE:
-				DrawMap(11, BG_Y, gfxBorderBlueLeft);
-				DrawMap(16, BG_Y, gfxBorderBlueRight);
-				DrawMap(8, BG_Y + 8, gfxBorderBlueLeft);
-				DrawMap(19, BG_Y + 8, gfxBorderBlueRight);
+				while(i < 8) {
+					DrawMap(13 - i, BG_Y + (i << 1), gfxBorderBlueLeft);
+					DrawMap(16 + i, BG_Y + (i << 1), gfxBorderBlueRight);
+					i++;
+				}
 
 				Print(9, PLAYER_Y + 3, blueString);
 				Print(15, PLAYER_Y + 3, sectorString);
@@ -195,10 +268,11 @@ void playerDrawLocation() {
 				Print(24, PLAYER_Y + 2, redString);
 				break;
 			case LOCATION_RED:
-				DrawMap(11, BG_Y, gfxBorderRedLeft);
-				DrawMap(16, BG_Y, gfxBorderRedRight);
-				DrawMap(8, BG_Y + 8, gfxBorderRedLeft);
-				DrawMap(19, BG_Y + 8, gfxBorderRedRight);
+				while(i < 8) {
+					DrawMap(13 - i, BG_Y + (i << 1), gfxBorderRedLeft);
+					DrawMap(16 + i, BG_Y + (i << 1), gfxBorderRedRight);
+					i++;
+				}
 
 				Print(10, PLAYER_Y + 3, redString);
 				Print(14, PLAYER_Y + 3, sectorString);
@@ -206,10 +280,11 @@ void playerDrawLocation() {
 				Print(21, PLAYER_Y + 2, yellowString);
 				break;
 			case LOCATION_YELLOW:
-				DrawMap(11, BG_Y, gfxBorderYellowLeft);
-				DrawMap(16, BG_Y, gfxBorderYellowRight);
-				DrawMap(8, BG_Y + 8, gfxBorderYellowLeft);
-				DrawMap(19, BG_Y + 8, gfxBorderYellowRight);
+				while(i < 8) {
+					DrawMap(13 - i, BG_Y + (i << 1), gfxBorderYellowLeft);
+					DrawMap(16 + i, BG_Y + (i << 1), gfxBorderYellowRight);
+					i++;
+				}
 
 				Print(8, PLAYER_Y + 3, yellowString);
 				Print(16, PLAYER_Y + 3, sectorString);
@@ -217,10 +292,11 @@ void playerDrawLocation() {
 				Print(21, PLAYER_Y + 2, purpleString);
 				break;
 			case LOCATION_PURPLE:
-				DrawMap(11, BG_Y, gfxBorderPurpleLeft);
-				DrawMap(16, BG_Y, gfxBorderPurpleRight);
-				DrawMap(8, BG_Y + 8, gfxBorderPurpleLeft);
-				DrawMap(19, BG_Y + 8, gfxBorderPurpleRight);
+				while(i < 8) {
+					DrawMap(13 - i, BG_Y + (i << 1), gfxBorderPurpleLeft);
+					DrawMap(16 + i, BG_Y + (i << 1), gfxBorderPurpleRight);
+					i++;
+				}
 
 				Print(8, PLAYER_Y + 3, purpleString);
 				Print(16, PLAYER_Y + 3, sectorString);
@@ -228,10 +304,11 @@ void playerDrawLocation() {
 				Print(23, PLAYER_Y + 2, cyanString);
 				break;
 			default:
-				DrawMap(11, BG_Y, gfxBorderCyanLeft);
-				DrawMap(16, BG_Y, gfxBorderCyanRight);
-				DrawMap(8, BG_Y + 8, gfxBorderCyanLeft);
-				DrawMap(19, BG_Y + 8, gfxBorderCyanRight);
+				while(i < 8) {
+					DrawMap(13 - i, BG_Y + (i << 1), gfxBorderCyanLeft);
+					DrawMap(16 + i, BG_Y + (i << 1), gfxBorderCyanRight);
+					i++;
+				}
 
 				Print(9, PLAYER_Y + 3, cyanString);
 				Print(15, PLAYER_Y + 3, sectorString);
@@ -243,123 +320,171 @@ void playerDrawLocation() {
 		Print(28, PLAYER_Y + 2, rightArrowString);
 	} else if(playerLocationTime == 2) {
 		//Draw one map in one color, and the other in the previous
-		DrawMap(8, BG_Y, gfxMapBigBlank);
+		DrawMap(6, BG_Y, gfxMapBigBlank);
 		DrawMap(16, BG_Y, gfxMapBigBlank);
 		DrawMap(0, PLAYER_Y + 2, gfxMapLongBlank);
 
 		switch(playerLocation) {
 			case LOCATION_GREEN:
 				if(playerLastLocation == LOCATION_CYAN) {
-					DrawMap(1, BG_Y, gfxBorderCyanRight);
-					DrawMap(4, BG_Y + 8, gfxBorderCyanRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderCyanRight);
+						i++;
+					}
 				} else {
-					DrawMap(26, BG_Y, gfxBorderBlueLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderBlueLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderBlueLeft);
+						i++;
+					}
 				}
 				break;
 			case LOCATION_BLUE:
 				if(playerLastLocation == LOCATION_GREEN) {
-					DrawMap(1, BG_Y, gfxBorderGreenRight);
-					DrawMap(4, BG_Y + 8, gfxBorderGreenRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderGreenRight);
+						i++;
+					}
 				} else {
-					DrawMap(26, BG_Y, gfxBorderRedLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderRedLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderRedLeft);
+						i++;
+					}
 				}
 				break;
 			case LOCATION_RED:
 				if(playerLastLocation == LOCATION_BLUE) {
-					DrawMap(1, BG_Y, gfxBorderBlueRight);
-					DrawMap(4, BG_Y + 8, gfxBorderBlueRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderBlueRight);
+						i++;
+					}
 				} else {
-					DrawMap(26, BG_Y, gfxBorderYellowLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderYellowLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderYellowLeft);
+						i++;
+					}
 				}
 				break;
 			case LOCATION_YELLOW:
 				if(playerLastLocation == LOCATION_RED) {
-					DrawMap(1, BG_Y, gfxBorderRedRight);
-					DrawMap(4, BG_Y + 8, gfxBorderRedRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderRedRight);
+						i++;
+					}
 				} else {
-					DrawMap(26, BG_Y, gfxBorderPurpleLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderPurpleLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderPurpleLeft);
+						i++;
+					}
 				}
 				break;
 			case LOCATION_PURPLE:
 				if(playerLastLocation == LOCATION_YELLOW) {
-					DrawMap(1, BG_Y, gfxBorderYellowRight);
-					DrawMap(4, BG_Y + 8, gfxBorderYellowRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderYellowRight);
+						i++;
+					}
 				} else {
-					DrawMap(26, BG_Y, gfxBorderCyanLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderCyanLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderCyanLeft);
+						i++;
+					}
 				}
 				break;
 			default:
 				if(playerLastLocation == LOCATION_PURPLE) {
-					DrawMap(1, BG_Y, gfxBorderPurpleRight);
-					DrawMap(4, BG_Y + 8, gfxBorderPurpleRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderPurpleRight);
+						i++;
+					}
 				} else {
-					DrawMap(26, BG_Y, gfxBorderGreenLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderGreenLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderGreenLeft);
+						i++;
+					}
 				}
 		}
 	} else {
 		//Draw one map in one color, and the other in the previous
-		DrawMap(1, BG_Y, gfxMapBigBlank);
-		DrawMap(23, BG_Y, gfxMapBigBlank);
+		DrawMap(0, BG_Y, gfxMapBigBlank);
+		DrawMap(22, BG_Y, gfxMapBigBlank);
 
 		switch(playerLocation) {
 			case LOCATION_GREEN:
 				if(playerLastLocation == LOCATION_CYAN) {
-					DrawMap(26, BG_Y, gfxBorderGreenLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderGreenLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderGreenLeft);
+						i++;
+					}
 				} else {
-					DrawMap(1, BG_Y, gfxBorderGreenRight);
-					DrawMap(4, BG_Y + 8, gfxBorderGreenRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderGreenRight);
+						i++;
+					}
 				}
 				break;
 			case LOCATION_BLUE:
 				if(playerLastLocation == LOCATION_GREEN) {
-					DrawMap(26, BG_Y, gfxBorderBlueLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderBlueLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderBlueLeft);
+						i++;
+					}
 				} else {
-					DrawMap(1, BG_Y, gfxBorderBlueRight);
-					DrawMap(4, BG_Y + 8, gfxBorderBlueRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderBlueRight);
+						i++;
+					}
 				}
 				break;
 			case LOCATION_RED:
 				if(playerLastLocation == LOCATION_BLUE) {
-					DrawMap(26, BG_Y, gfxBorderRedLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderRedLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderRedLeft);
+						i++;
+					}
 				} else {
-					DrawMap(1, BG_Y, gfxBorderRedRight);
-					DrawMap(4, BG_Y + 8, gfxBorderRedRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderRedRight);
+						i++;
+					}
 				}
 				break;
 			case LOCATION_YELLOW:
 				if(playerLastLocation == LOCATION_RED) {
-					DrawMap(26, BG_Y, gfxBorderYellowLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderYellowLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderYellowLeft);
+						i++;
+					}
 				} else {
-					DrawMap(1, BG_Y, gfxBorderYellowRight);
-					DrawMap(4, BG_Y + 8, gfxBorderYellowRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderYellowRight);
+						i++;
+					}
 				}
 				break;
 			case LOCATION_PURPLE:
 				if(playerLastLocation == LOCATION_YELLOW) {
-					DrawMap(26, BG_Y, gfxBorderPurpleLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderPurpleLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderPurpleLeft);
+						i++;
+					}
 				} else {
-					DrawMap(1, BG_Y, gfxBorderPurpleRight);
-					DrawMap(4, BG_Y + 8, gfxBorderPurpleRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderPurpleRight);
+						i++;
+					}
 				}
 				break;
 			default:
 				if(playerLastLocation == LOCATION_PURPLE) {
-					DrawMap(26, BG_Y, gfxBorderCyanLeft);
-					DrawMap(23, BG_Y + 8, gfxBorderCyanLeft);
+					while(i < 8) {
+						DrawMap(29 - i, BG_Y + (i << 1), gfxBorderCyanLeft);
+						i++;
+					}
 				} else {
-					DrawMap(1, BG_Y, gfxBorderCyanRight);
-					DrawMap(4, BG_Y + 8, gfxBorderCyanRight);
+					while(i < 8) {
+						DrawMap(0 + i, BG_Y + (i << 1), gfxBorderCyanRight);
+						i++;
+					}
 				}
 		}
 	}

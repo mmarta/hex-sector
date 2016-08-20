@@ -11,6 +11,7 @@ extern unsigned long playerScore;
 void playerStart();
 void playerInput();
 void playerUpdate();
+void playerKill();
 void playerAddScore(u16);
 
 #endif

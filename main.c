@@ -19,6 +19,9 @@ void runAllCollisions();
 u8 checkCollision(u8, u8, u8, u8);
 void addCoin();
 
+u8 isCurrentlyPlaying();
+u8 isReadyTick();
+
 int main() {
 	u8 i;
 	//srand(time(NULL));
@@ -50,27 +53,37 @@ int main() {
 
 		//Update & inputs
 		checkCoinStart();
-		vQueueCycle(); //Any viruses to initialize?
+
 		playerInput();
 		playerUpdate();
-		i = 0;
-		while(i < VIRUS_POOL_TOTAL) {
-			virusUpdate(i);
-			i++;
-		}
-		playerRedrawTick = 0;
 
-		//Sprite updates come next
-		i = 0;
-		while(i < (SHOT_TOTAL >> 1)) {
-			shotUpdate(i);
-			i++;
-		}
+		if(isCurrentlyPlaying()) {
+			vQueueCycle(); //Any viruses to initialize?
+			i = 0;
+			while(i < VIRUS_POOL_TOTAL) {
+				virusUpdate(i);
+				i++;
+			}
+			playerRedrawTick = 0;
 
-		//Temp ticks
-		tick++;
-		if(tick >= 180) {
-			tick = 0;
+			//Sprite updates come next
+			i = 0;
+			while(i < (SHOT_TOTAL >> 1)) {
+				shotUpdate(i);
+				i++;
+			}
+
+			//Temp ticks
+			tick++;
+			if(tick >= 180) {
+				tick = 0;
+			}
+		} else if(isReadyTick()) {
+			i = 0;
+			while(i < VIRUS_POOL_TOTAL) {
+				virusActive[i] = 0;
+				i++;
+			}
 		}
 	}
 }
@@ -81,7 +94,7 @@ void runAllCollisions() {
 
 	i = 0;
 	while(i < VIRUS_POOL_TOTAL) {
-		if(!virusActive[i] || playerLocation != virusLocation[i]) {
+		if(!virusActive[i] || playerLocation != virusLocation[i] || virusDieTime[i] > 0) {
 			i++;
 			continue;
 		}
@@ -176,4 +189,13 @@ void addCoin() {
 		PrintByte(18, 27, credits, 0);
 		Print(11, 27, creditString);
 	}
+}
+
+//Checks to see if player is currently active and in playfield
+u8 isCurrentlyPlaying() {
+	return playerDieTime == 0;
+}
+
+u8 isReadyTick() {
+	return playerDieTime == 30;
 }

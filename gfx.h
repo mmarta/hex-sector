@@ -17,6 +17,16 @@ extern const char gfxVirusCloseYellow[];
 extern const char gfxVirusClosePurple[];
 extern const char gfxVirusCloseCyan[];
 
+extern const char gfxVirusDieA[];
+extern const char gfxVirusDieB[];
+extern const char gfxVirusDieC[];
+extern const char gfxVirusDieD[];
+
+extern const char gfxPlayerDieA[];
+extern const char gfxPlayerDieB[];
+extern const char gfxPlayerDieC[];
+extern const char gfxPlayerDieD[];
+
 extern const char gfxBorderGreenLeft[];
 extern const char gfxBorderGreenRight[];
 extern const char gfxBorderBlueLeft[];

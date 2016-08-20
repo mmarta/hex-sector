@@ -1,6 +1,6 @@
 #include "virus.h"
 
-u8 virusY[VIRUS_POOL_TOTAL], virusTime[VIRUS_POOL_TOTAL], virusLocation[VIRUS_POOL_TOTAL];
+u8 virusY[VIRUS_POOL_TOTAL], virusTime[VIRUS_POOL_TOTAL], virusLocation[VIRUS_POOL_TOTAL], virusDieTime[VIRUS_POOL_TOTAL];
 u8 virusActive[VIRUS_POOL_TOTAL];
 u8 virusNextMoveTime[VIRUS_POOL_TOTAL];
 
@@ -17,6 +17,7 @@ void virusInit(u8 loc) {
 			virusLocation[i] = loc;
 			virusNextMoveTime[i] = VIRUS_NEXT_MOVE_START;
 			virusActive[i] = 1;
+			virusDieTime[i] = 0;
 			virusDraw(i);
 			return;
 		}
@@ -40,6 +41,25 @@ void virusUpdate(u8 i) {
 		}
 	}
 
+	if(virusDieTime[i] > 0) {
+		if(virusDieTime[i] <= 16) {
+			switch(virusDieTime[i]) {
+				case 1:
+				case 5:
+				case 9:
+				case 13:
+					virusDraw(i);
+			}
+		} else if(virusDieTime[i] > 16) {
+			virusDieTime[i] = 0;
+			virusActive[i] = 0;
+			virusErase(i);
+		}
+
+		virusDieTime[i]++;
+		return;
+	}
+
 	virusTime[i]++;
 	if(virusTime[i] == virusNextMoveTime[i]) {
 		virusTime[i] = 0;
@@ -54,10 +74,9 @@ void virusUpdate(u8 i) {
 			virusNextMoveTime[i] -= 2;
 		}
 
-		//Virus too close? Eliminate it
+		//Virus too close? Kill the player
 		if(virusY[i] >= PLAYER_Y - 2) {
-			virusActive[i] = 0;
-			virusErase(i);
+			playerKill();
 		} else if(virusLocation[i] == playerLocation) {
 			//Draw new virus (if same loc)
 			virusDraw(i);
@@ -66,8 +85,7 @@ void virusUpdate(u8 i) {
 }
 
 void virusDestroy(u8 i) {
-	virusErase(i);
-	virusActive[i] = 0;
+	virusDieTime[i] = 1;
 }
 
 void virusErase(u8 i) {
@@ -76,6 +94,23 @@ void virusErase(u8 i) {
 
 void virusDraw(u8 i) {
 	if(!virusActive[i] || virusLocation[i] != playerLocation || playerLocationTime > 0) {
+		return;
+	}
+
+	if(virusDieTime[i] > 0) {
+		switch(virusDieTime[i]) {
+			case 1:
+				DrawMap(VIRUS_X, virusY[i], gfxVirusDieA);
+				break;
+			case 5:
+				DrawMap(VIRUS_X, virusY[i], gfxVirusDieB);
+				break;
+			case 9:
+				DrawMap(VIRUS_X, virusY[i], gfxVirusDieC);
+				break;
+			default:
+				DrawMap(VIRUS_X, virusY[i], gfxVirusDieD);
+		}
 		return;
 	}
 

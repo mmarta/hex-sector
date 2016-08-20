@@ -5,7 +5,7 @@
 #include "gfx.h"
 #include "player.h"
 
-extern u8 virusY[], virusTime[], virusLocation[], virusActive[];
+extern u8 virusY[], virusTime[], virusLocation[], virusActive[], virusDieTime[];
 
 void virusInit(u8);
 void virusUpdate(u8);
