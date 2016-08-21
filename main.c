@@ -4,6 +4,7 @@
 #include <uzebox.h>
 
 #include "gfx.h"
+#include "location.h"
 #include "shot.h"
 #include "player.h"
 #include "virus.h"
@@ -24,8 +25,7 @@ u8 isReadyTick();
 
 int main() {
 	u8 i;
-	//srand(time(NULL));
-
+	
 	//Set the tile table and clear.
 	SetTileTable(gfxTiles);
 	ClearVram();
@@ -65,6 +65,13 @@ int main() {
 				i++;
 			}
 			playerRedrawTick = 0;
+			
+			//Update locations next
+			i = 0;
+			while(i < LOCATION_COUNT) {
+				locationUpdate(i);
+				i++;
+			}
 
 			//Sprite updates come next
 			i = 0;
@@ -79,9 +86,17 @@ int main() {
 				tick = 0;
 			}
 		} else if(isReadyTick()) {
+			//Clear all viruses
 			i = 0;
 			while(i < VIRUS_POOL_TOTAL) {
 				virusActive[i] = 0;
+				i++;
+			}
+			
+			//Clear bottom threats counter
+			i = 0;
+			while(i < LOCATION_COUNT) {
+				locationClearThreat(i);
 				i++;
 			}
 		}

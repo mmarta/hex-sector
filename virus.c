@@ -73,6 +73,14 @@ void virusUpdate(u8 i) {
 		if(virusY[i] > 11) {
 			virusNextMoveTime[i] -= 2;
 		}
+		
+		if(virusY[i] <= 10) {
+			locationSetMaxIntensity(virusLocation[i], 1);
+		} else if(virusY[i] <= 14) {
+			locationSetMaxIntensity(virusLocation[i], 2);
+		} else {
+			locationSetMaxIntensity(virusLocation[i], 3);
+		}
 
 		//Virus too close? Kill the player
 		if(virusY[i] >= PLAYER_Y - 2) {
@@ -86,6 +94,7 @@ void virusUpdate(u8 i) {
 
 void virusDestroy(u8 i) {
 	virusDieTime[i] = 1;
+	locationClearThreat(virusLocation[i]);
 }
 
 void virusErase(u8 i) {

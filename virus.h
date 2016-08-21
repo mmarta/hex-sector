@@ -3,6 +3,7 @@
 
 #include "const.h"
 #include "gfx.h"
+#include "location.h"
 #include "player.h"
 
 extern u8 virusY[], virusTime[], virusLocation[], virusActive[], virusDieTime[];

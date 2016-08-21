@@ -12,6 +12,7 @@
 #define LOCATION_YELLOW 3
 #define LOCATION_PURPLE 4
 #define LOCATION_CYAN 5
+#define LOCATION_COUNT 6
 
 #define BG_Y 5
 

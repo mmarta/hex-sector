@@ -36,6 +36,14 @@
 			<map var-name="gfxBorderCyanLeft" left="10" top="4" width="1" height="2" />
 			<map var-name="gfxBorderCyanRight" left="11" top="4" width="1" height="2" />
 
+			<map var-name="gfxBlockGreen" left="12" top="4" width="1" height="1" />
+			<map var-name="gfxBlockBlue" left="13" top="4" width="1" height="1" />
+			<map var-name="gfxBlockRed" left="14" top="4" width="1" height="1" />
+			<map var-name="gfxBlockYellow" left="15" top="4" width="1" height="1" />
+			<map var-name="gfxBlockPurple" left="16" top="4" width="1" height="1" />
+			<map var-name="gfxBlockCyan" left="17" top="4" width="1" height="1" />
+			<map var-name="gfxArrow" left="18" top="4" width="1" height="1" />
+
 			<map var-name="gfxMapBlank8" left="0" top="0" width="1" height="1" />
 		</maps>
 	</output>

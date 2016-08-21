@@ -40,6 +40,14 @@ extern const char gfxBorderPurpleRight[];
 extern const char gfxBorderCyanLeft[];
 extern const char gfxBorderCyanRight[];
 
+extern const char gfxBlockGreen[];
+extern const char gfxBlockBlue[];
+extern const char gfxBlockRed[];
+extern const char gfxBlockYellow[];
+extern const char gfxBlockPurple[];
+extern const char gfxBlockCyan[];
+extern const char gfxArrow[];
+
 extern const char gfxMapBlank8[];
 extern const char gfxMapBlank16[];
 extern const char gfxMapBigBlank[];

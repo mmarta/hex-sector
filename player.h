@@ -3,6 +3,7 @@
 
 #include "const.h"
 #include "gfx.h"
+#include "location.h"
 #include "shot.h"
 
 extern u8 playerLocation, playerLives, playerTime, playerDieTime, playerLocationTime, playerRedrawTick;
