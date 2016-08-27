@@ -7,7 +7,9 @@
 #include "shot.h"
 
 extern u8 playerLocation, playerLives, playerTime, playerDieTime, playerLocationTime, playerRedrawTick;
-extern unsigned long playerScore;
+extern unsigned long playerScore, hi;
+
+extern const char hiString[];
 
 void playerStart();
 void playerInput();

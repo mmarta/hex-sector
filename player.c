@@ -1,16 +1,19 @@
 #include "player.h"
 
 u8 playerLocation, playerLives, playerTime, playerDieTime;
-unsigned long playerScore;
+unsigned long playerScore, hi = 10000;
 u8 playerRedrawTick = 0;
+
+u16 playerToNext;
 
 //Internal vars
 u8 playerLastLocation, playerLocationTime;
 u8 playerLeftB, playerRightB, playerFireB;
 
 const char scoreString[] PROGMEM = "SCORE";
-
+const char hiString[] PROGMEM = "HI";
 const char readyString[] PROGMEM = "READY!";
+const char gameOverString[] PROGMEM = "GAME  OVER";
 
 void playerFire();
 void playerDraw();
@@ -18,6 +21,8 @@ void playerDrawStats();
 u8 playerCheckAllShotsFree();
 
 void playerStart() {
+	u8 i;
+	
 	playerLocation = LOCATION_GREEN;
 	playerLives = 3;
 	playerTime = 0;
@@ -29,12 +34,18 @@ void playerStart() {
 	playerFireB = 0;
 
 	playerScore = 0;
+	playerToNext = 30000;
 
 	locationDraw(playerLocation, playerLastLocation, playerLocationTime);
 	locationShowAll(playerLocation);
 	playerDraw();
 	Print(0, 0, scoreString);
 	playerDrawStats();
+	
+	i = playerLives - 1;
+	while(i--) {
+		DrawMap(i, 2, gfxLife);
+	}
 }
 
 void playerInput() {
@@ -137,9 +148,14 @@ void playerUpdate() {
 		} else if(playerDieTime == 30) {
 			playerLocationTime = 0;
 			playerLives--;
+			DrawMap(playerLives - 1, 2, gfxMapBlank8);
 			
 			locationClear();
-			Print(12, 13, readyString);
+			if(playerLives > 0) {
+				Print(12, 13, readyString);
+			} else {
+				Print(10, 13, gameOverString);
+			}
 
 			//Clear shots
 			i = 0;
@@ -169,8 +185,24 @@ void playerKill() {
 }
 
 void playerAddScore(u16 score) {
-	playerScore += score;
-	PrintLong(7, 1, playerScore);
+	if(playerScore < 10000000) {
+		playerScore += score;
+		PrintLong(7, 1, playerScore);
+		
+		if(score >= playerToNext) {
+			playerLives++;
+			playerToNext += 60000;
+			if(playerLives <= 6) {
+				DrawMap(playerLives - 1, 2, gfxLife);
+			}
+		}
+		playerToNext -= score;
+		
+		if(playerScore > hi) {
+			hi = playerScore;
+			PrintLong(29, 1, hi);
+		}
+	}
 }
 
 //Shoot!

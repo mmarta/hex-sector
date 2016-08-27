@@ -10,22 +10,19 @@
 #include "virus.h"
 #include "vqueue.h"
 
-u8 credits = 0, inputB[] = {0, 0, 0, 0};
+u8 credits = 0, titleMode, inputB[] = {0, 0, 0, 0};
 const char creditString[] PROGMEM = "CREDIT";
-
-u8 tick = 0;
 
 void checkCoinStart();
 void runAllCollisions();
 u8 checkCollision(u8, u8, u8, u8);
 void addCoin();
-
 u8 isCurrentlyPlaying();
 u8 isReadyTick();
+void titleUpdate();
+void gameUpdate();
 
 int main() {
-	u8 i;
-	
 	//Set the tile table and clear.
 	SetTileTable(gfxTiles);
 	ClearVram();
@@ -37,16 +34,12 @@ int main() {
 	playerStart();
 	PrintByte(18, 27, credits, 0);
 	Print(11, 27, creditString);
-
+	
+	Print(25, 0, hiString);
+	PrintLong(29, 1, hi);
 
 	while(1) {
 		WaitVsync(1);
-
-		//Temp tick code
-		if(!tick) {
-			vQueueEnqueue(rand() % 6, 0);
-			vQueueEnqueue(rand() % 6, 40);
-		}
 
 		//Check collisions first
 		runAllCollisions();
@@ -54,51 +47,71 @@ int main() {
 		//Update & inputs
 		checkCoinStart();
 
-		playerInput();
-		playerUpdate();
+		if(titleMode) {
+			titleUpdate();
+		} else {
+			gameUpdate();
+		}
+	}
+}
 
-		if(isCurrentlyPlaying()) {
-			vQueueCycle(); //Any viruses to initialize?
-			i = 0;
-			while(i < VIRUS_POOL_TOTAL) {
-				virusUpdate(i);
-				i++;
-			}
-			playerRedrawTick = 0;
-			
-			//Update locations next
-			i = 0;
-			while(i < LOCATION_COUNT) {
-				locationUpdate(i);
-				i++;
-			}
+void titleUpdate() {
+	
+}
 
-			//Sprite updates come next
-			i = 0;
-			while(i < (SHOT_TOTAL >> 1)) {
-				shotUpdate(i);
-				i++;
-			}
+void gameUpdate() {
+	u8 i;
+	
+	playerInput();
+	playerUpdate();
+	
+	if(isCurrentlyPlaying() && playerLives == 0) {
+		titleMode = 1;
+		return;
+	}
 
-			//Temp ticks
-			tick++;
-			if(tick >= 180) {
-				tick = 0;
-			}
-		} else if(isReadyTick()) {
-			//Clear all viruses
-			i = 0;
-			while(i < VIRUS_POOL_TOTAL) {
-				virusActive[i] = 0;
-				i++;
-			}
-			
-			//Clear bottom threats counter
-			i = 0;
-			while(i < LOCATION_COUNT) {
-				locationClearThreat(i);
-				i++;
-			}
+	if(isCurrentlyPlaying()) {
+		if(!(rand() % 50)) {
+			vQueueEnqueue(rand() % 6, rand() % 90);
+		}
+		
+		vQueueCycle(); //Any viruses to initialize?
+		i = 0;
+		while(i < VIRUS_POOL_TOTAL) {
+			virusUpdate(i);
+			i++;
+		}
+		playerRedrawTick = 0;
+	
+		//Update locations next
+		i = 0;
+		while(i < LOCATION_COUNT) {
+			locationUpdate(i);
+			i++;
+		}
+	
+		//Sprite updates come next
+		i = 0;
+		while(i < (SHOT_TOTAL >> 1)) {
+			shotUpdate(i);
+			i++;
+		}
+	} else if(isReadyTick()) {
+		//Clear all viruses
+		i = 0;
+		while(i < VIRUS_POOL_TOTAL) {
+			virusActive[i] = 0;
+			i++;
+		}
+		
+		//Clear virus queue
+		vQueueClear();
+		
+		//Clear bottom threats counter
+		i = 0;
+		while(i < LOCATION_COUNT) {
+			locationClearThreat(i);
+			i++;
 		}
 	}
 }

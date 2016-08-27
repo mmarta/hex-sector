@@ -70,9 +70,7 @@ void virusUpdate(u8 i) {
 		}
 
 		virusY[i]++;
-		if(virusY[i] > 11) {
-			virusNextMoveTime[i] -= 2;
-		}
+		virusNextMoveTime[i]--;
 		
 		if(virusY[i] <= 10) {
 			locationSetMaxIntensity(virusLocation[i], 1);

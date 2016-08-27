@@ -47,6 +47,7 @@ extern const char gfxBlockYellow[];
 extern const char gfxBlockPurple[];
 extern const char gfxBlockCyan[];
 extern const char gfxArrow[];
+extern const char gfxLife[];
 
 extern const char gfxMapBlank8[];
 extern const char gfxMapBlank16[];
