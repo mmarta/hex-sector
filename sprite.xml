@@ -1,14 +1,20 @@
 <?xml version="1.0" ?>
 <gfx-xform version="1">
-	<input file="img/sprite.data" type="raw" tile-width="8" tile-height="8" width="40" height="8" />
-	<output file="data/sprite.inc">
-		<tiles var-name="gfxTilesSprite" />
-		<maps pointers-size="8">
-			<map var-name="gfxMapSpriteBlank" left="0" top="0" width="1" height="1" />
-			<map var-name="gfxSpriteShotLarge" left="1" top="0" width="1" height="1" />
-			<map var-name="gfxSpriteShotMedium" left="2" top="0" width="1" height="1" />
-			<map var-name="gfxSpriteShotSmall" left="3" top="0" width="1" height="1" />
-			<map var-name="gfxSpriteShotTiny" left="4" top="0" width="1" height="1" />
-		</maps>
-	</output>
+    <input file="img/sprite.data" type="raw" tile-width="8" tile-height="8" width="72" height="8" />
+    <output file="data/sprite.inc">
+        <tiles var-name="gfxTilesSprite" />
+        <maps pointers-size="8">
+            <map var-name="gfxMapSpriteBlank" left="0" top="0" width="1" height="1" />
+            
+            <map var-name="gfxSpriteShotLarge" left="1" top="0" width="1" height="1" />
+            <map var-name="gfxSpriteShotMedium" left="2" top="0" width="1" height="1" />
+            <map var-name="gfxSpriteShotSmall" left="3" top="0" width="1" height="1" />
+            <map var-name="gfxSpriteShotTiny" left="4" top="0" width="1" height="1" />
+
+            <map var-name="gfxSpriteMissileLarge" left="5" top="0" width="1" height="1" />
+            <map var-name="gfxSpriteMissileMedium" left="6" top="0" width="1" height="1" />
+            <map var-name="gfxSpriteMissileSmall" left="7" top="0" width="1" height="1" />
+            <map var-name="gfxSpriteMissileTiny" left="8" top="0" width="1" height="1" />
+        </maps>
+    </output>
 </gfx-xform>

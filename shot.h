@@ -4,9 +4,10 @@
 #include "const.h"
 #include "gfx.h"
 
-extern u8 shotY[], shotActive[];
+extern u8 shotY[], shotActive[], shotIsViral[];
 
-void shotInit();
+void shotInitPlayer();
+void shotInitViral(u8);
 void shotUpdate(u8);
 void shotFree(u8);
 

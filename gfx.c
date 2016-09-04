@@ -40,11 +40,11 @@ const char gfxMapLongBlank[] PROGMEM ={
 u8 gfxIndexSpriteShot[SHOT_TOTAL];
 
 void gfxLoadIndexSprite() {
-	u8 i = 0;
-	while(i < SPRITE_TOTAL) {
-		if(i < SHOT_TOTAL) {
-			gfxIndexSpriteShot[i] = i;
-		}
-		i++;
-	}
+    u8 i = 0;
+    while(i < SPRITE_TOTAL) {
+        if(i < SHOT_TOTAL) {
+            gfxIndexSpriteShot[i] = i;
+        }
+        i++;
+    }
 }

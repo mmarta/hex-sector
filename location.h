@@ -10,6 +10,6 @@ void locationClear();
 void locationClearThreat(u8);
 void locationShowAll(u8);
 void locationMoveArrow(u8);
-void locationSetMaxIntensity(u8, u8);
+void locationSetMaxIntensity(u8, u8, u8);
 
 #endif

@@ -8,7 +8,7 @@
 
 extern u8 virusY[], virusTime[], virusLocation[], virusActive[], virusDieTime[];
 
-void virusInit(u8);
+void virusInit(u8, u8);
 void virusUpdate(u8);
 void virusDestroy(u8);
 

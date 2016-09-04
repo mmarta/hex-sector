@@ -1,51 +1,53 @@
 <?xml version="1.0" ?>
 <gfx-xform version="1">
-	<input file="img/gfx.data" type="raw" tile-width="8" tile-height="8" width="256" height="48" />
-	<output file="data/gfx.inc">
-		<tiles var-name="gfxTiles" />
-		<maps pointers-size="8">
-			<map var-name="gfxPlayerA" left="0" top="2" width="2" height="2" />
-			<map var-name="gfxPlayerB" left="2" top="2" width="2" height="2" />
-			<map var-name="gfxVirusCloseGreen" left="4" top="2" width="2" height="2" />
-			<map var-name="gfxVirusCloseBlue" left="6" top="2" width="2" height="2" />
-			<map var-name="gfxVirusCloseRed" left="8" top="2" width="2" height="2" />
-			<map var-name="gfxVirusCloseYellow" left="10" top="2" width="2" height="2" />
-			<map var-name="gfxVirusClosePurple" left="12" top="2" width="2" height="2" />
-			<map var-name="gfxVirusCloseCyan" left="14" top="2" width="2" height="2" />
+    <input file="img/gfx.data" type="raw" tile-width="8" tile-height="8" width="256" height="48" />
+    <output file="data/gfx.inc">
+        <tiles var-name="gfxTiles" />
+        <maps pointers-size="8">
+            <map var-name="gfxPlayerA" left="0" top="2" width="2" height="2" />
+            <map var-name="gfxPlayerB" left="2" top="2" width="2" height="2" />
+            <map var-name="gfxVirusCloseGreen" left="4" top="2" width="2" height="2" />
+            <map var-name="gfxVirusCloseBlue" left="6" top="2" width="2" height="2" />
+            <map var-name="gfxVirusCloseRed" left="8" top="2" width="2" height="2" />
+            <map var-name="gfxVirusCloseYellow" left="10" top="2" width="2" height="2" />
+            <map var-name="gfxVirusClosePurple" left="12" top="2" width="2" height="2" />
+            <map var-name="gfxVirusCloseCyan" left="14" top="2" width="2" height="2" />
+            <map var-name="gfxVirusCloseAngry" left="20" top="4" width="2" height="2" />
 
-			<map var-name="gfxVirusDieA" left="16" top="2" width="2" height="2" />
-			<map var-name="gfxVirusDieB" left="18" top="2" width="2" height="2" />
-			<map var-name="gfxVirusDieC" left="20" top="2" width="2" height="2" />
-			<map var-name="gfxVirusDieD" left="22" top="2" width="2" height="2" />
+            <map var-name="gfxVirusDieA" left="16" top="2" width="2" height="2" />
+            <map var-name="gfxVirusDieB" left="18" top="2" width="2" height="2" />
+            <map var-name="gfxVirusDieC" left="20" top="2" width="2" height="2" />
+            <map var-name="gfxVirusDieD" left="22" top="2" width="2" height="2" />
 
-			<map var-name="gfxPlayerDieA" left="24" top="2" width="2" height="2" />
-			<map var-name="gfxPlayerDieB" left="26" top="2" width="2" height="2" />
-			<map var-name="gfxPlayerDieC" left="28" top="2" width="2" height="2" />
-			<map var-name="gfxPlayerDieD" left="30" top="2" width="2" height="2" />
+            <map var-name="gfxPlayerDieA" left="24" top="2" width="2" height="2" />
+            <map var-name="gfxPlayerDieB" left="26" top="2" width="2" height="2" />
+            <map var-name="gfxPlayerDieC" left="28" top="2" width="2" height="2" />
+            <map var-name="gfxPlayerDieD" left="30" top="2" width="2" height="2" />
 
-			<map var-name="gfxBorderGreenLeft" left="0" top="4" width="1" height="2" />
-			<map var-name="gfxBorderGreenRight" left="1" top="4" width="1" height="2" />
-			<map var-name="gfxBorderBlueLeft" left="2" top="4" width="1" height="2" />
-			<map var-name="gfxBorderBlueRight" left="3" top="4" width="1" height="2" />
-			<map var-name="gfxBorderRedLeft" left="4" top="4" width="1" height="2" />
-			<map var-name="gfxBorderRedRight" left="5" top="4" width="1" height="2" />
-			<map var-name="gfxBorderYellowLeft" left="6" top="4" width="1" height="2" />
-			<map var-name="gfxBorderYellowRight" left="7" top="4" width="1" height="2" />
-			<map var-name="gfxBorderPurpleLeft" left="8" top="4" width="1" height="2" />
-			<map var-name="gfxBorderPurpleRight" left="9" top="4" width="1" height="2" />
-			<map var-name="gfxBorderCyanLeft" left="10" top="4" width="1" height="2" />
-			<map var-name="gfxBorderCyanRight" left="11" top="4" width="1" height="2" />
+            <map var-name="gfxBorderGreenLeft" left="0" top="4" width="1" height="2" />
+            <map var-name="gfxBorderGreenRight" left="1" top="4" width="1" height="2" />
+            <map var-name="gfxBorderBlueLeft" left="2" top="4" width="1" height="2" />
+            <map var-name="gfxBorderBlueRight" left="3" top="4" width="1" height="2" />
+            <map var-name="gfxBorderRedLeft" left="4" top="4" width="1" height="2" />
+            <map var-name="gfxBorderRedRight" left="5" top="4" width="1" height="2" />
+            <map var-name="gfxBorderYellowLeft" left="6" top="4" width="1" height="2" />
+            <map var-name="gfxBorderYellowRight" left="7" top="4" width="1" height="2" />
+            <map var-name="gfxBorderPurpleLeft" left="8" top="4" width="1" height="2" />
+            <map var-name="gfxBorderPurpleRight" left="9" top="4" width="1" height="2" />
+            <map var-name="gfxBorderCyanLeft" left="10" top="4" width="1" height="2" />
+            <map var-name="gfxBorderCyanRight" left="11" top="4" width="1" height="2" />
 
-			<map var-name="gfxBlockGreen" left="12" top="4" width="1" height="1" />
-			<map var-name="gfxBlockBlue" left="13" top="4" width="1" height="1" />
-			<map var-name="gfxBlockRed" left="14" top="4" width="1" height="1" />
-			<map var-name="gfxBlockYellow" left="15" top="4" width="1" height="1" />
-			<map var-name="gfxBlockPurple" left="16" top="4" width="1" height="1" />
-			<map var-name="gfxBlockCyan" left="17" top="4" width="1" height="1" />
-			<map var-name="gfxArrow" left="18" top="4" width="1" height="1" />
-			<map var-name="gfxLife" left="19" top="4" width="1" height="1" />
+            <map var-name="gfxBlockGreen" left="12" top="4" width="1" height="1" />
+            <map var-name="gfxBlockBlue" left="13" top="4" width="1" height="1" />
+            <map var-name="gfxBlockRed" left="14" top="4" width="1" height="1" />
+            <map var-name="gfxBlockYellow" left="15" top="4" width="1" height="1" />
+            <map var-name="gfxBlockPurple" left="16" top="4" width="1" height="1" />
+            <map var-name="gfxBlockCyan" left="17" top="4" width="1" height="1" />
+            <map var-name="gfxBlockAngry" left="22" top="4" width="1" height="1" />
+            <map var-name="gfxArrow" left="18" top="4" width="1" height="1" />
+            <map var-name="gfxLife" left="19" top="4" width="1" height="1" />
 
-			<map var-name="gfxMapBlank8" left="0" top="0" width="1" height="1" />
-		</maps>
-	</output>
+            <map var-name="gfxMapBlank8" left="0" top="0" width="1" height="1" />
+        </maps>
+    </output>
 </gfx-xform>

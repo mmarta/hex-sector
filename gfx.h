@@ -16,6 +16,7 @@ extern const char gfxVirusCloseRed[];
 extern const char gfxVirusCloseYellow[];
 extern const char gfxVirusClosePurple[];
 extern const char gfxVirusCloseCyan[];
+extern const char gfxVirusCloseAngry[];
 
 extern const char gfxVirusDieA[];
 extern const char gfxVirusDieB[];
@@ -46,6 +47,7 @@ extern const char gfxBlockRed[];
 extern const char gfxBlockYellow[];
 extern const char gfxBlockPurple[];
 extern const char gfxBlockCyan[];
+extern const char gfxBlockAngry[];
 extern const char gfxArrow[];
 extern const char gfxLife[];
 
@@ -64,6 +66,10 @@ extern const char gfxSpriteShotLarge[];
 extern const char gfxSpriteShotMedium[];
 extern const char gfxSpriteShotSmall[];
 extern const char gfxSpriteShotTiny[];
+extern const char gfxSpriteMissileLarge[];
+extern const char gfxSpriteMissileMedium[];
+extern const char gfxSpriteMissileSmall[];
+extern const char gfxSpriteMissileTiny[];
 
 //Sprite memory for shots
 
