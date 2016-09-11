@@ -1,7 +1,7 @@
 #include "vqueue.h"
 
 u8 vQueueColor[V_QUEUE_LENGTH], vQueueTime[V_QUEUE_LENGTH], vQueueNextSpot = 0, vQueueFront = 0, vQueueSize = 0;
-u8 virusLatestTime[LOCATION_COUNT];
+u8 virusLatestTime[LOCATION_COUNT], vQueueAngryRandom[V_QUEUE_LENGTH];
 
 void vQueueDequeue();
 
@@ -17,7 +17,7 @@ void vQueueClear() {
     }
 }
 
-void vQueueEnqueue(u8 vColor, u8 vTime) {
+void vQueueEnqueue(u8 vColor, u8 vTime, u8 angryRandom) {
     if(vQueueSize == V_QUEUE_LENGTH) {
         return; //Can't enqueue, queue is full
     }
@@ -30,6 +30,7 @@ void vQueueEnqueue(u8 vColor, u8 vTime) {
     
     vQueueColor[vQueueNextSpot] = vColor;
     vQueueTime[vQueueNextSpot] = vTime;
+    vQueueAngryRandom[vQueueNextSpot] = angryRandom;
     virusLatestTime[vColor] = vTime;
 
     vQueueNextSpot++;
@@ -65,7 +66,7 @@ void vQueueDequeue() {
         return; //Can't dequeue, queue is empty
     }
 
-    virusInit(vQueueColor[vQueueFront], angryNum < 32 ? 1 : 0);
+    virusInit(vQueueColor[vQueueFront], (vQueueAngryRandom[vQueueFront] && angryNum < 32) ? 1 : 0);
 
     vQueueFront++;
     if(vQueueFront >= V_QUEUE_LENGTH) {

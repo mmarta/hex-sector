@@ -3,13 +3,12 @@
 
 #include "const.h"
 #include "gfx.h"
+#include "machine.h"
 #include "location.h"
 #include "shot.h"
 
 extern u8 playerLocation, playerLives, playerTime, playerDieTime, playerLocationTime, playerRedrawTick;
-extern unsigned long playerScore, hi;
-
-extern const char hiString[];
+extern unsigned long playerScore;
 
 void playerStart();
 void playerInput();

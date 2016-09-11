@@ -4,8 +4,10 @@
 #include "const.h"
 #include "virus.h"
 
+extern u8 vQueueSize;
+
 void vQueueClear();
-void vQueueEnqueue(u8, u8);
+void vQueueEnqueue(u8, u8, u8);
 void vQueueCycle();
 
 #endif

@@ -1,7 +1,7 @@
 #include "player.h"
 
 u8 playerLocation, playerLives, playerTime, playerDieTime;
-unsigned long playerScore, hi = 10000;
+unsigned long playerScore;
 u8 playerRedrawTick = 0;
 
 u16 playerToNext;
@@ -11,7 +11,6 @@ u8 playerLastLocation, playerLocationTime;
 u8 playerLeftB, playerRightB, playerFireB;
 
 const char scoreString[] PROGMEM = "SCORE";
-const char hiString[] PROGMEM = "HI";
 const char readyString[] PROGMEM = "READY!";
 const char gameOverString[] PROGMEM = "GAME  OVER";
 
@@ -198,9 +197,9 @@ void playerAddScore(u16 score) {
         }
         playerToNext -= score;
         
-        if(playerScore > hi) {
-            hi = playerScore;
-            PrintLong(29, 1, hi);
+        if(playerScore > machineHi) {
+            machineHi = playerScore;
+            PrintLong(29, 1, machineHi);
         }
     }
 }

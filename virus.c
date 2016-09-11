@@ -77,7 +77,7 @@ void virusUpdate(u8 i) {
         virusNextMoveTime[i]--;
         
         //Angry virus specific stuff
-        if(virusIsAngry[i]) {
+        if(virusIsAngry[i] && virusY[i] % 4 == 0) {
             //Clear the current threat before moving.
             locationClearThreat(virusLocation[i]);
             
