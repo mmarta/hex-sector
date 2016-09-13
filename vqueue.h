@@ -7,7 +7,7 @@
 extern u8 vQueueSize;
 
 void vQueueClear();
-void vQueueEnqueue(u8, u8, u8);
+u8 vQueueEnqueue(u8, u8, u8);
 void vQueueCycle();
 
 #endif

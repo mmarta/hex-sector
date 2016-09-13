@@ -11,7 +11,7 @@ void virusDraw(u8);
 void virusErase(u8);
 
 //Create a new virus
-void virusInit(u8 loc, u8 isAngry) {
+u8 virusInit(u8 loc, u8 isAngry) {
     u8 i = 0;
     while(i < VIRUS_POOL_TOTAL) {
         if(!virusActive[i]) {
@@ -23,11 +23,13 @@ void virusInit(u8 loc, u8 isAngry) {
             virusActive[i] = 1;
             virusDieTime[i] = 0;
             virusDraw(i);
-            return;
+            return 1;
         }
 
         i++;
     }
+    
+    return 0;
 }
 
 void virusUpdate(u8 i) {

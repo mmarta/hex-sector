@@ -41,8 +41,7 @@ void gameUpdate() {
         //Any viruses to initialize?
         if(!(rand() % 50)) {
             if(gameEnqueued < gameVirusesTotal) {
-                vQueueEnqueue(rand() % 6, rand() % 90, gameStage >= 4 ? 1 : 0);
-                gameEnqueued++;
+                gameEnqueued += vQueueEnqueue(rand() % 6, rand() % 90, gameStage >= 4 ? 1 : 0);
             }
         }
         
@@ -90,9 +89,6 @@ void gameUpdate() {
             virusActive[i] = 0;
             i++;
         }
-        
-        //Clear virus queue
-        vQueueClear();
         
         //Clear bottom threats counter
         i = 0;
@@ -142,11 +138,14 @@ void gameStageStart() {
     gameKillCount = 0;
     gameReadyStageTime = 0;
     gameEnqueued = 0;
+        
+    //Clear virus queue
+    vQueueClear();
     
     Print(14, 3, virusString);
     PrintByte(29, 3, gameVirusesTotal, 0);
     Print(0, 3, levelString);
-    PrintByte(6, 3, gameStage, 0);
+    PrintByte(5, 3, gameStage, 0);
 }
 
 void gameStageUp() {

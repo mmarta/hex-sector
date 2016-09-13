@@ -192,7 +192,7 @@ void playerAddScore(u16 score) {
             playerLives++;
             playerToNext += 60000;
             if(playerLives <= 6) {
-                DrawMap(playerLives - 1, 2, gfxLife);
+                DrawMap(playerLives - 2, 2, gfxLife);
             }
         }
         playerToNext -= score;
