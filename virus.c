@@ -32,10 +32,24 @@ u8 virusInit(u8 loc, u8 isAngry) {
     return 0;
 }
 
-void virusUpdate(u8 i) {
+void virusUpdate(u8 i, u8 stage) {
+    u8 angerFactor, shotFactor;
+    
     if(!virusActive[i]) {
         return;
     }
+    
+    //Set anger factor & shot factors
+    angerFactor = (stage >= VIRUS_ANGRY_FAST_STAGE) ? VIRUS_ANGRY_FAST_FACTOR : VIRUS_ANGRY_SLOW_FACTOR;
+    if(stage >= VIRUS_SHOT_HOT_STAGE) {
+        shotFactor = VIRUS_SHOT_HOT_FACTOR;
+    } else if(stage >= VIRUS_SHOT_MEDIUM_STAGE) {
+        shotFactor = VIRUS_SHOT_MEDIUM_FACTOR;
+    } else {
+        shotFactor = VIRUS_SHOT_MILD_FACTOR;
+    }
+    
+    //Set 
 
     //Always erase/redraw if need be
     if(playerRedrawTick) {
@@ -76,10 +90,12 @@ void virusUpdate(u8 i) {
         }
 
         virusY[i]++;
-        virusNextMoveTime[i]--;
+        if(virusNextMoveTime[i] >= 5) {
+            virusNextMoveTime[i] -= ((stage >= 6 && virusNextMoveTime[i] % 4 == 0) ? 2 : 1);
+        }
         
         //Angry virus specific stuff
-        if(virusIsAngry[i] && virusY[i] % 4 == 0) {
+        if(virusIsAngry[i] && virusY[i] % angerFactor == 0) {
             //Clear the current threat before moving.
             locationClearThreat(virusLocation[i]);
             
@@ -97,7 +113,7 @@ void virusUpdate(u8 i) {
         }
         
         //Shoot?
-        if(!(rand() % 4) && virusLocation[i] == playerLocation && playerLocationTime == 0) {
+        if(!(rand() % shotFactor) && virusLocation[i] == playerLocation && playerLocationTime == 0 && virusY[i] <= 12) {
             shotInitViral(virusY[i] << 3);
         }
         

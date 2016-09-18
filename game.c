@@ -2,6 +2,7 @@
 
 u8 gameStage;
 u8 gameVirusesTotal, gameKillCount, gameEnqueued;
+u8 gameVirusExtFactor, gameVirusCurrentFactor;
 u8 gameReadyStageTime = 0;
 const char virusString[] PROGMEM = "VIRAL THREATS";
 const char levelString[] PROGMEM = "LV=";
@@ -25,7 +26,6 @@ void gameStart() {
 void gameUpdate() {
     u8 i, readyNextLevel = 1;
     
-    
     if(gameIsCurrentlyPlaying() && playerLives == 0) {
         machineTitleMode = 1;
         return;
@@ -39,9 +39,9 @@ void gameUpdate() {
         gameRunAllCollisions();
         
         //Any viruses to initialize?
-        if(!(rand() % 50)) {
+        if(!(rand() % gameVirusCurrentFactor)) {
             if(gameEnqueued < gameVirusesTotal) {
-                gameEnqueued += vQueueEnqueue(rand() % 6, rand() % 90, gameStage >= 4 ? 1 : 0);
+                gameEnqueued += vQueueEnqueue(rand() % 6, rand() % 90, gameStage >= VIRUS_ANGRY_SLOW_STAGE ? 1 : 0);
             }
         }
         
@@ -53,7 +53,7 @@ void gameUpdate() {
             readyNextLevel = 0;
         }
         while(i < VIRUS_POOL_TOTAL) {
-            virusUpdate(i);
+            virusUpdate(i, gameStage);
             if(readyNextLevel) {
                 if(virusActive[i]) { //Last enemmy destroyed fully?
                     readyNextLevel = 0;
@@ -138,6 +138,8 @@ void gameStageStart() {
     gameKillCount = 0;
     gameReadyStageTime = 0;
     gameEnqueued = 0;
+    gameVirusExtFactor = (VIRUS_STARTING_FACTOR / 2) / gameStage;
+    gameVirusCurrentFactor = (VIRUS_STARTING_FACTOR / 2) + gameVirusExtFactor;
         
     //Clear virus queue
     vQueueClear();
