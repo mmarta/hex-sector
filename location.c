@@ -15,13 +15,11 @@ void locationUpdate(u8 i) {
             return;
         default:
             locationTime[i] += (1 << locationIntensity[i]);
+            if(locationTime[i] >= 64) {
+                locationTime[i] = 0;
+            }
     }
-
-    locationTime[i]++;
-    if(locationTime[i] >= 64) {
-        locationTime[i] = 0;
-    }
-
+    
     if(locationTime[i] < 32) {
         DrawMap(12 + i, LOCATION_INDICATOR_Y, gfxMapBlank8);
     } else {

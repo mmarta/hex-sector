@@ -7,7 +7,6 @@
 #include "shot.h"
 #include "player.h"
 #include "virus.h"
-#include "vqueue.h"
 #include "machine.h"
 
 extern u8 gameStage;

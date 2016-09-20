@@ -3,7 +3,7 @@
 u8 gameStage;
 u8 gameVirusesTotal, gameKillCount, gameEnqueued;
 u8 gameVirusExtFactor, gameVirusCurrentFactor;
-u8 gameReadyStageTime = 0;
+u8 gameReadyStageTime = 0, gameLastVirusTime = 0, gameVirusReliefTime;
 const char virusString[] PROGMEM = "VIRAL THREATS";
 const char levelString[] PROGMEM = "LV=";
 
@@ -26,7 +26,7 @@ void gameStart() {
 }
 
 void gameUpdate() {
-    u8 i, readyNextLevel = 1;
+    u8 i, readyNextLevel = 1, isAngry;
     
     if(gameIsCurrentlyPlaying() && playerLives == 0) {
         machineTitleMode = 1;
@@ -41,13 +41,14 @@ void gameUpdate() {
         gameRunAllCollisions();
         
         //Any viruses to initialize?
-        if(!(rand() % gameVirusCurrentFactor)) {
-            if(gameEnqueued < gameVirusesTotal) {
-                gameEnqueued += vQueueEnqueue(rand() % 6, rand() % 90, gameStage >= VIRUS_ANGRY_SLOW_STAGE ? 1 : 0);
+        if(gameEnqueued < gameVirusesTotal) {
+            gameLastVirusTime++;
+            if((!(rand() % gameVirusCurrentFactor) && gameLastVirusTime >= gameVirusReliefTime) || gameLastVirusTime >= VIRUS_RELIEF_LIMIT) {
+                isAngry = (gameStage >= VIRUS_ANGRY_SLOW_STAGE && !(rand() % 6)) ? 1 : 0;
+                gameEnqueued += virusInit(rand() % 6, isAngry);
+                gameLastVirusTime = 0;
             }
         }
-        
-        vQueueCycle();
         
         i = 0;
         //Start looking to go to the next level?
@@ -85,13 +86,6 @@ void gameUpdate() {
     } else if(gameIsReadyTick()) {
         playerUpdate();
         
-        //Clear all viruses
-        i = 0;
-        while(i < VIRUS_POOL_TOTAL) {
-            virusActive[i] = 0;
-            i++;
-        }
-        
         //Clear bottom threats counter
         i = 0;
         while(i < LOCATION_COUNT) {
@@ -126,6 +120,8 @@ void gameUpdate() {
 }
 
 void gameStageStart() {
+    u8 i;
+    
     //How many enemies?
     if(gameStage <= 2) {
         gameVirusesTotal = 10;
@@ -137,12 +133,25 @@ void gameStageStart() {
         gameVirusesTotal = 25;
     }
     
+    //Clear all viruses
+    i = 0;
+    while(i < VIRUS_POOL_TOTAL) {
+        virusActive[i] = 0;
+        i++;
+    }
+    
     gameKillCount = 0;
     gameReadyStageTime = 0;
     gameEnqueued = 0;
-        
-    //Clear virus queue
-    vQueueClear();
+    gameLastVirusTime = 0;
+    
+    if(gameStage >= VIRUS_RELIEF_HIGH_STAGE) {
+        gameVirusReliefTime = VIRUS_RELIEF_HIGH;
+    } else if(gameStage >= VIRUS_RELIEF_MED_STAGE) {
+        gameVirusReliefTime = VIRUS_RELIEF_MED;
+    } else {
+        gameVirusReliefTime = VIRUS_RELIEF_LOW;
+    }
     
     Print(14, 3, virusString);
     PrintByte(29, 3, gameVirusesTotal, 0);
@@ -154,10 +163,10 @@ void gameStageSetFactors() {
     //More linear difficulty curve
     if(gameStage == 1) {
         gameVirusExtFactor = VIRUS_STARTING_FACTOR / 2;
-    } else if(gameVirusExtFactor - 7 > gameVirusExtFactor) {
+    } else if(gameVirusExtFactor - VIRUS_SPEED_FACTOR > gameVirusExtFactor) {
         gameVirusExtFactor = 0;
     } else {
-        gameVirusExtFactor -= 7;
+        gameVirusExtFactor -= VIRUS_SPEED_FACTOR;
     }
     gameVirusCurrentFactor = (VIRUS_STARTING_FACTOR / 2) + gameVirusExtFactor;
 }

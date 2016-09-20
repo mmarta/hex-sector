@@ -33,7 +33,7 @@ void playerStart() {
     playerFireB = 0;
 
     playerScore = 0;
-    playerToNext = 30000;
+    playerToNext = 50000;
 
     locationDraw(playerLocation, playerLastLocation, playerLocationTime);
     locationShowAll(playerLocation);
@@ -190,7 +190,7 @@ void playerAddScore(u16 score) {
         
         if(score >= playerToNext) {
             playerLives++;
-            playerToNext += 60000;
+            playerToNext += 80000;
             if(playerLives <= 6) {
                 DrawMap(playerLives - 2, 2, gfxLife);
             }
