@@ -11,6 +11,7 @@ const char challengeStringTop[] PROGMEM = "ARE YOU READY FOR";
 const char challengeStringBottom[] PROGMEM = "THE NEXT CHALLENGE?";
 
 void gameStageStart();
+void gameStageSetFactors();
 void gameStageUp();
 void gameRunAllCollisions();
 u8 gameCheckCollision(u8, u8, u8, u8);
@@ -20,6 +21,7 @@ u8 gameIsReadyTick();
 void gameStart() {
     gameStage = 1;
     gameStageStart();
+    gameStageSetFactors();
     playerStart();
 }
 
@@ -138,8 +140,6 @@ void gameStageStart() {
     gameKillCount = 0;
     gameReadyStageTime = 0;
     gameEnqueued = 0;
-    gameVirusExtFactor = (VIRUS_STARTING_FACTOR / 2) / gameStage;
-    gameVirusCurrentFactor = (VIRUS_STARTING_FACTOR / 2) + gameVirusExtFactor;
         
     //Clear virus queue
     vQueueClear();
@@ -148,6 +148,18 @@ void gameStageStart() {
     PrintByte(29, 3, gameVirusesTotal, 0);
     Print(0, 3, levelString);
     PrintByte(5, 3, gameStage, 0);
+}
+
+void gameStageSetFactors() {
+    //More linear difficulty curve
+    if(gameStage == 1) {
+        gameVirusExtFactor = VIRUS_STARTING_FACTOR / 2;
+    } else if(gameVirusExtFactor - 7 > gameVirusExtFactor) {
+        gameVirusExtFactor = 0;
+    } else {
+        gameVirusExtFactor -= 7;
+    }
+    gameVirusCurrentFactor = (VIRUS_STARTING_FACTOR / 2) + gameVirusExtFactor;
 }
 
 void gameStageUp() {
@@ -164,6 +176,7 @@ void gameStageUp() {
     locationDraw(playerLocation, LOCATION_GREEN, playerLocationTime);
     locationShowAll(playerLocation);
     gameStageStart();
+    gameStageSetFactors();
 }
 
 //Runs through all collisions
@@ -188,13 +201,17 @@ void gameRunAllCollisions() {
                 shotFree(j);
                 virusDestroy(i);
                 if(virusY[i] <= 10) {
-                    playerAddScore(200);
-                } else if(virusY[i] <= 14) {
                     playerAddScore(400);
-                } else {
+                } else if(virusY[i] <= 14) {
                     playerAddScore(800);
+                } else {
+                    playerAddScore(1600);
                 }
                 gameKillCount++;
+                //TODO: Find issue with underflow
+                if(gameKillCount > gameVirusesTotal) {
+                    gameKillCount = gameVirusesTotal;
+                }
                 PrintByte(29, 3, gameVirusesTotal - gameKillCount, 0);
             }
             j++;
@@ -202,6 +219,7 @@ void gameRunAllCollisions() {
         i++;
     }
     
+    //Check to see if viral shot kills player
     i = SHOT_VIRAL_COUNT + SHOT_VIRAL_START;
     while(i-- > SHOT_VIRAL_START) {
         if(shotIsViral[i] && shotY[i] > (PLAYER_Y - 1) << 3 && shotActive[i]) {

@@ -23,10 +23,10 @@ void locationUpdate(u8 i) {
     }
 
     if(locationTime[i] < 32) {
-        DrawMap(12 + i, PLAYER_Y + 3, gfxMapBlank8);
+        DrawMap(12 + i, LOCATION_INDICATOR_Y, gfxMapBlank8);
     } else {
         if(locationAngry[i]) {
-            DrawMap(12 + i, PLAYER_Y + 3, gfxBlockAngry);
+            DrawMap(12 + i, LOCATION_INDICATOR_Y, gfxBlockAngry);
         } else {
             locationDrawBlock(i);
         }
@@ -75,8 +75,8 @@ void locationDraw(u8 playerLocation, u8 playerLastLocation, u8 playerLocationTim
         DrawMap(6, BG_Y, gfxMapBigBlank);
         DrawMap(16, BG_Y, gfxMapBigBlank);
 
-        DrawMap(1, PLAYER_Y + 2, gfxMapBlank8);
-        DrawMap(28, PLAYER_Y + 2, gfxMapBlank8);
+        DrawMap(1, PLAYER_Y, gfxMapBlank8);
+        DrawMap(28, PLAYER_Y, gfxMapBlank8);
 
         switch(playerLocation) {
             case LOCATION_GREEN:
@@ -205,8 +205,8 @@ void locationDraw(u8 playerLocation, u8 playerLastLocation, u8 playerLocationTim
             i++;
         }
 
-        Print(1, PLAYER_Y + 2, leftArrowString);
-        Print(28, PLAYER_Y + 2, rightArrowString);
+        Print(1, PLAYER_Y, leftArrowString);
+        Print(28, PLAYER_Y, rightArrowString);
     }
 }
 
@@ -215,8 +215,8 @@ void locationClear() {
     DrawMap(8, BG_Y, gfxMapBigBlank);
     DrawMap(16, BG_Y, gfxMapBigBlank);
     DrawMap(22, BG_Y, gfxMapBigBlank);
-
-    DrawMap(0, PLAYER_Y + 2, gfxMapLongBlank);
+    
+    DrawMap(0, LOCATION_INDICATOR_Y + 1, gfxMapLongBlank);
 }
 
 void locationClearThreat(u8 location) {
@@ -227,33 +227,33 @@ void locationClearThreat(u8 location) {
 }
 
 void locationShowAll(u8 playerLocation) {
-    DrawMap(12, PLAYER_Y + 3, gfxBlockGreen);
-    DrawMap(13, PLAYER_Y + 3, gfxBlockBlue);
-    DrawMap(14, PLAYER_Y + 3, gfxBlockRed);
-    DrawMap(15, PLAYER_Y + 3, gfxBlockYellow);
-    DrawMap(16, PLAYER_Y + 3, gfxBlockPurple);
-    DrawMap(17, PLAYER_Y + 3, gfxBlockCyan);
+    DrawMap(12, LOCATION_INDICATOR_Y, gfxBlockGreen);
+    DrawMap(13, LOCATION_INDICATOR_Y, gfxBlockBlue);
+    DrawMap(14, LOCATION_INDICATOR_Y, gfxBlockRed);
+    DrawMap(15, LOCATION_INDICATOR_Y, gfxBlockYellow);
+    DrawMap(16, LOCATION_INDICATOR_Y, gfxBlockPurple);
+    DrawMap(17, LOCATION_INDICATOR_Y, gfxBlockCyan);
 
-    DrawMap(12 + playerLocation, PLAYER_Y + 4, gfxArrow);
+    DrawMap(12 + playerLocation, LOCATION_INDICATOR_Y + 1, gfxArrow);
 }
 
 void locationMoveArrow(u8 playerLocation) {
     u8 xVal = playerLocation + 12;
     switch(playerLocation) {
         case LOCATION_GREEN:
-            DrawMap(xVal + 5, PLAYER_Y + 4, gfxMapBlank8);
-            DrawMap(xVal + 1, PLAYER_Y + 4, gfxMapBlank8);
+            DrawMap(xVal + 5, LOCATION_INDICATOR_Y + 1, gfxMapBlank8);
+            DrawMap(xVal + 1, LOCATION_INDICATOR_Y + 1, gfxMapBlank8);
             break;
         case LOCATION_CYAN:
-            DrawMap(xVal - 5, PLAYER_Y + 4, gfxMapBlank8);
-            DrawMap(xVal - 1, PLAYER_Y + 4, gfxMapBlank8);
+            DrawMap(xVal - 5, LOCATION_INDICATOR_Y + 1, gfxMapBlank8);
+            DrawMap(xVal - 1, LOCATION_INDICATOR_Y + 1, gfxMapBlank8);
             break;
         default:
-            DrawMap(xVal + 1, PLAYER_Y + 4, gfxMapBlank8);
-            DrawMap(xVal - 1, PLAYER_Y + 4, gfxMapBlank8);
+            DrawMap(xVal + 1, LOCATION_INDICATOR_Y + 1, gfxMapBlank8);
+            DrawMap(xVal - 1, LOCATION_INDICATOR_Y + 1, gfxMapBlank8);
     }
 
-    DrawMap(xVal, PLAYER_Y + 4, gfxArrow);
+    DrawMap(xVal, LOCATION_INDICATOR_Y + 1, gfxArrow);
 }
 
 void locationSetMaxIntensity(u8 location, u8 intensity, u8 isAngry) {
@@ -267,21 +267,21 @@ void locationSetMaxIntensity(u8 location, u8 intensity, u8 isAngry) {
 void locationDrawBlock(u8 location) {
     switch(location) {
         case LOCATION_GREEN:
-            DrawMap(12, PLAYER_Y + 3, gfxBlockGreen);
+            DrawMap(12, LOCATION_INDICATOR_Y, gfxBlockGreen);
             break;
         case LOCATION_BLUE:
-            DrawMap(13, PLAYER_Y + 3, gfxBlockBlue);
+            DrawMap(13, LOCATION_INDICATOR_Y, gfxBlockBlue);
             break;
         case LOCATION_RED:
-            DrawMap(14, PLAYER_Y + 3, gfxBlockRed);
+            DrawMap(14, LOCATION_INDICATOR_Y, gfxBlockRed);
             break;
         case LOCATION_YELLOW:
-            DrawMap(15, PLAYER_Y + 3, gfxBlockYellow);
+            DrawMap(15, LOCATION_INDICATOR_Y, gfxBlockYellow);
             break;
         case LOCATION_PURPLE:
-            DrawMap(16, PLAYER_Y + 3, gfxBlockPurple);
+            DrawMap(16, LOCATION_INDICATOR_Y, gfxBlockPurple);
             break;
         default:
-            DrawMap(17, PLAYER_Y + 3, gfxBlockCyan);
+            DrawMap(17, LOCATION_INDICATOR_Y, gfxBlockCyan);
     }
 }

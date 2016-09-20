@@ -48,8 +48,6 @@ void virusUpdate(u8 i, u8 stage) {
     } else {
         shotFactor = VIRUS_SHOT_MILD_FACTOR;
     }
-    
-    //Set 
 
     //Always erase/redraw if need be
     if(playerRedrawTick) {
@@ -91,7 +89,13 @@ void virusUpdate(u8 i, u8 stage) {
 
         virusY[i]++;
         if(virusNextMoveTime[i] >= 5) {
-            virusNextMoveTime[i] -= ((stage >= 6 && virusNextMoveTime[i] % 4 == 0) ? 2 : 1);
+            if(stage >= VIRUS_HIGH_SPEED_STAGE) {
+                virusNextMoveTime[i] -= 2;
+            } else if(stage >= VIRUS_MEDIUM_SPEED_STAGE && virusNextMoveTime[i] % 4 == 0) {
+                virusNextMoveTime[i] -= 2;
+            } else {
+                virusNextMoveTime[i] -= 1;
+            }
         }
         
         //Angry virus specific stuff
@@ -117,16 +121,16 @@ void virusUpdate(u8 i, u8 stage) {
             shotInitViral(virusY[i] << 3);
         }
         
-        if(virusY[i] <= 10) {
+        if(virusY[i] <= 12) {
             locationSetMaxIntensity(virusLocation[i], 1, virusIsAngry[i]);
-        } else if(virusY[i] <= 14) {
+        } else if(virusY[i] <= 16) {
             locationSetMaxIntensity(virusLocation[i], 2, virusIsAngry[i]);
         } else {
             locationSetMaxIntensity(virusLocation[i], 3, virusIsAngry[i]);
         }
 
         //Virus too close? Kill the player
-        if(virusY[i] >= PLAYER_Y - 2) {
+        if(virusY[i] >= PLAYER_Y - 1) {
             playerKill();
         } else if(virusLocation[i] == playerLocation) {
             //Draw new virus (if same loc)

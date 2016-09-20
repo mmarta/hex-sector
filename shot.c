@@ -72,7 +72,7 @@ void shotUpdate(u8 i) {
             if(shotY[i] < (BG_Y << 3)) {
                 shotFree(i);
             } else {
-                if(shotY[i] < 54) {
+                if(shotY[i] < 88) {
                     if(shotSize[i] == 1) {
                         shotSize[i]--;
                         shotXA[i]++;
@@ -81,7 +81,7 @@ void shotUpdate(u8 i) {
                         MapSprite(gfxOtherI, gfxSpriteShotTiny);
                     }
                     shotY[i] -= 2;
-                } else if(shotY[i] < 84) {
+                } else if(shotY[i] < 108) {
                     if(shotSize[i] == 2) {
                         shotSize[i]--;
                         shotXA[i]++;
@@ -90,7 +90,7 @@ void shotUpdate(u8 i) {
                         MapSprite(gfxOtherI, gfxSpriteShotSmall);
                     }
                     shotY[i] -= 3;
-                } else if(shotY[i] < 130) {
+                } else if(shotY[i] < 154) {
                     if(shotSize[i] == 3) {
                         shotSize[i]--;
                         shotXA[i]++;
@@ -108,19 +108,19 @@ void shotUpdate(u8 i) {
         } else { //Viral shot
             gfxI = gfxIndexSpriteShot[i - SHOT_VIRAL_START + SHOT_VIRAL_SPRITE_START];
         
-            if(shotY[i] >= 130) {
+            if(shotY[i] >= 154) {
                 if(shotSize[i] == 2) {
                     shotSize[i]++;
                     MapSprite(gfxI, gfxSpriteMissileLarge);
                 }
                 shotY[i] += 3;
-            } else if(shotY[i] >= 84) {
+            } else if(shotY[i] >= 108) {
                 if(shotSize[i] == 1) {
                     shotSize[i]++;
                     MapSprite(gfxI, gfxSpriteMissileMedium);
                 }
                 shotY[i] += 2;
-            } else if(shotY[i] >= 54) {
+            } else if(shotY[i] >= 88) {
                 if(shotSize[i] == 0) {
                     shotSize[i]++;
                     MapSprite(gfxI, gfxSpriteMissileSmall);
