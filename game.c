@@ -193,8 +193,24 @@ void gameRunAllCollisions() {
     u8 i, j;
 
     i = 0;
+    
+    //All shot to virus collisions, include flash, are here.
     while(i < VIRUS_POOL_TOTAL) {
         if(!virusActive[i] || playerLocation != virusLocation[i] || virusDieTime[i] > 0) {
+            i++;
+            continue;
+        }
+        
+        //Flash comes first, destroy all if true
+        if(playerFlashTick) {
+            virusDestroy(i);
+            playerAddScore(400); //Only basic score on flash
+            gameKillCount++;
+            //TODO: Find issue with underflow
+            if(gameKillCount > gameVirusesTotal) {
+                gameKillCount = gameVirusesTotal;
+            }
+            PrintByte(29, 3, gameVirusesTotal - gameKillCount, 0);
             i++;
             continue;
         }
@@ -228,10 +244,12 @@ void gameRunAllCollisions() {
         i++;
     }
     
-    //Check to see if viral shot kills player
+    //Check to see if viral shot kills player, or flash outdoes them
     i = SHOT_VIRAL_COUNT + SHOT_VIRAL_START;
     while(i-- > SHOT_VIRAL_START) {
-        if(shotIsViral[i] && shotY[i] > (PLAYER_Y - 1) << 3 && shotActive[i]) {
+        if(shotActive[i] && shotIsViral[i] && playerFlashTick) {
+            shotFree(i);
+        } else if(shotIsViral[i] && shotY[i] > (PLAYER_Y - 1) << 3 && shotActive[i]) {
             playerKill();
             break;
         }

@@ -7,7 +7,7 @@
 #include "location.h"
 #include "shot.h"
 
-extern u8 playerLocation, playerLives, playerTime, playerDieTime, playerLocationTime, playerRedrawTick;
+extern u8 playerLocation, playerLives, playerTime, playerDieTime, playerLocationTime, playerRedrawTick, playerFlashTick;
 extern unsigned long playerScore;
 
 void playerStart();

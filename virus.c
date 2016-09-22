@@ -5,6 +5,7 @@ u8 virusY[VIRUS_POOL_TOTAL], virusTime[VIRUS_POOL_TOTAL],
 
 u8 virusActive[VIRUS_POOL_TOTAL];
 u8 virusIsAngry[VIRUS_POOL_TOTAL];
+u8 virusAngryDir[VIRUS_POOL_TOTAL];
 u8 virusNextMoveTime[VIRUS_POOL_TOTAL];
 
 void virusDraw(u8);
@@ -20,6 +21,7 @@ u8 virusInit(u8 loc, u8 isAngry) {
             virusLocation[i] = loc;
             virusNextMoveTime[i] = VIRUS_NEXT_MOVE_START;
             virusIsAngry[i] = isAngry;
+            virusAngryDir[i] = rand() % 2;
             virusActive[i] = 1;
             virusDieTime[i] = 0;
             virusDraw(i);
@@ -33,14 +35,21 @@ u8 virusInit(u8 loc, u8 isAngry) {
 }
 
 void virusUpdate(u8 i, u8 stage) {
-    u8 angerFactor, shotFactor;
+    u8 angerFactor, shotFactor, angryMovementCondition;
     
     if(!virusActive[i]) {
         return;
     }
     
     //Set anger factor & shot factors
-    angerFactor = (stage >= VIRUS_ANGRY_FAST_STAGE) ? VIRUS_ANGRY_FAST_FACTOR : VIRUS_ANGRY_SLOW_FACTOR;
+    if(stage >= VIRUS_ANGRY_FAST_STAGE) {
+        //Pick random between fast & slow
+        angerFactor = (rand() % 2) ? VIRUS_ANGRY_FAST_FACTOR : VIRUS_ANGRY_SLOW_FACTOR;
+    } else {
+        //Just use slow
+        angerFactor = VIRUS_ANGRY_SLOW_FACTOR;
+    }
+    
     if(stage >= VIRUS_SHOT_HOT_STAGE) {
         shotFactor = VIRUS_SHOT_HOT_FACTOR;
     } else if(stage >= VIRUS_SHOT_MEDIUM_STAGE) {
@@ -102,8 +111,9 @@ void virusUpdate(u8 i, u8 stage) {
         if(virusIsAngry[i] && virusY[i] % angerFactor == 0) {
             //Clear the current threat before moving.
             locationClearThreat(virusLocation[i]);
+            angryMovementCondition = (angerFactor == VIRUS_ANGRY_FAST_FACTOR) ? virusAngryDir[i] : rand() % 2;
             
-            if(rand() % 2) {
+            if(angryMovementCondition) {
                 virusLocation[i] = virusLocation[i] + 1;
                 if(virusLocation[i] == 6) {
                     virusLocation[i] = LOCATION_GREEN;

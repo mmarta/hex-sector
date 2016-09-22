@@ -1,22 +1,22 @@
 #include "player.h"
 
-u8 playerLocation, playerLives, playerTime, playerDieTime;
+u8 playerLocation, playerLives, playerTime, playerDieTime, playerFlash, playerFlashTick;
 unsigned long playerScore;
 u8 playerRedrawTick = 0;
 
-u16 playerToNext;
+unsigned long playerToNext;
 
 //Internal vars
 u8 playerLastLocation, playerLocationTime;
-u8 playerLeftB, playerRightB, playerFireB;
+u8 playerLeftB, playerRightB, playerFireB, playerFlashB;
 
 const char scoreString[] PROGMEM = "SCORE";
 const char readyString[] PROGMEM = "READY!";
+const char flashString[] PROGMEM = "FLASH=";
 const char gameOverString[] PROGMEM = "GAME  OVER";
 
 void playerFire();
 void playerDraw();
-void playerDrawStats();
 u8 playerCheckAllShotsFree();
 
 void playerStart() {
@@ -27,10 +27,12 @@ void playerStart() {
     playerTime = 0;
     playerDieTime = 0;
     playerLocationTime = 0;
+    playerFlash = 1;
 
     playerLeftB = 0;
     playerRightB = 0;
     playerFireB = 0;
+    playerFlashB = 0;
 
     playerScore = 0;
     playerToNext = 50000;
@@ -39,7 +41,9 @@ void playerStart() {
     locationShowAll(playerLocation);
     playerDraw();
     Print(0, 0, scoreString);
-    playerDrawStats();
+    Print(21, 4, flashString);
+    PrintLong(7, 1, playerScore);
+    PrintByte(29, 4, playerFlash, 0);
     
     i = playerLives - 1;
     while(i--) {
@@ -56,6 +60,7 @@ void playerInput() {
     }
 
     pad = ReadJoypad(0);
+    playerFlashTick = 0; //Reset tick
 
     if(pad & BTN_LEFT) {
         if(!playerLeftB && playerLocationTime == 0) {
@@ -107,6 +112,17 @@ void playerInput() {
     } else {
         playerFireB = 0;
     }
+    
+    if(pad & BTN_B) {
+        if(!playerFlashB && playerLocationTime == 0 && playerFlash) {
+            playerFlashTick = 1;
+            playerFlash--;
+            PrintByte(29, 4, playerFlash, 0);
+            playerFlashB = 1;
+        }
+    } else {
+        playerFlashB = 0;
+    }
 }
 
 void playerUpdate() {
@@ -149,6 +165,9 @@ void playerUpdate() {
             playerLives--;
             DrawMap(playerLives - 1, 2, gfxMapBlank8);
             
+            playerFlash = 1;
+            PrintByte(29, 4, playerFlash, 0);
+            
             locationClear();
             if(playerLives > 0) {
                 Print(12, 13, readyString);
@@ -189,11 +208,19 @@ void playerAddScore(u16 score) {
         PrintLong(7, 1, playerScore);
         
         if(score >= playerToNext) {
-            playerLives++;
-            playerToNext += 80000;
-            if(playerLives <= 6) {
-                DrawMap(playerLives - 2, 2, gfxLife);
+            if(playerLives < 255) {
+                playerLives++;
+                if(playerLives <= 6) {
+                    DrawMap(playerLives - 2, 2, gfxLife);
+                }
             }
+            
+            if(playerFlash < 255) {
+                playerFlash++;
+                PrintByte(29, 4, playerFlash, 0);
+            }
+            
+            playerToNext += 80000;
         }
         playerToNext -= score;
         
@@ -252,5 +279,5 @@ void playerDraw() {
 }
 
 void playerDrawStats() {
-    PrintLong(7, 1, playerScore);
+    
 }
