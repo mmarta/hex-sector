@@ -27,7 +27,7 @@ void gameStart() {
 
 void gameUpdate() {
     u8 i, readyNextLevel = 1, isAngry;
-    
+
     if(gameIsCurrentlyPlaying() && playerLives == 0) {
         machineTitleMode = 1;
         return;
@@ -36,10 +36,10 @@ void gameUpdate() {
     if(gameIsCurrentlyPlaying()) {
         playerInput();
         playerUpdate();
-        
+
         //Check collisions first
         gameRunAllCollisions();
-        
+
         //Any viruses to initialize?
         if(gameEnqueued < gameVirusesTotal) {
             gameLastVirusTime++;
@@ -49,7 +49,7 @@ void gameUpdate() {
                 gameLastVirusTime = 0;
             }
         }
-        
+
         i = 0;
         //Start looking to go to the next level?
         if(gameKillCount < gameVirusesTotal) {
@@ -65,34 +65,34 @@ void gameUpdate() {
             i++;
         }
         playerRedrawTick = 0;
-    
+
         //Update locations next
         i = 0;
         while(i < LOCATION_COUNT) {
             locationUpdate(i);
             i++;
         }
-    
+
         //Sprite updates come next
         i = 0;
         while(i < SHOT_TOTAL_ONSCREEN) {
             shotUpdate(i);
             i++;
         }
-        
+
         if(readyNextLevel) {
             gameReadyStageTime = 1;
         }
     } else if(gameIsReadyTick()) {
         playerUpdate();
-        
+
         //Clear bottom threats counter
         i = 0;
         while(i < LOCATION_COUNT) {
             locationClearThreat(i);
             i++;
         }
-        
+
         //Restart
         gameStageStart();
     } else if(gameReadyStageTime > 0) {
@@ -102,7 +102,7 @@ void gameUpdate() {
                 shotFree(i);
                 i++;
             }
-            
+
             locationClear(); //Clear all
             DrawMap(PLAYER_X, PLAYER_Y, gfxMapBlank16);
 
@@ -121,7 +121,7 @@ void gameUpdate() {
 
 void gameStageStart() {
     u8 i;
-    
+
     //How many enemies?
     if(gameStage <= 2) {
         gameVirusesTotal = 10;
@@ -132,19 +132,19 @@ void gameStageStart() {
     } else {
         gameVirusesTotal = 25;
     }
-    
+
     //Clear all viruses
     i = 0;
     while(i < VIRUS_POOL_TOTAL) {
         virusActive[i] = 0;
         i++;
     }
-    
+
     gameKillCount = 0;
     gameReadyStageTime = 0;
     gameEnqueued = 0;
     gameLastVirusTime = 0;
-    
+
     if(gameStage >= VIRUS_RELIEF_HIGH_STAGE) {
         gameVirusReliefTime = VIRUS_RELIEF_HIGH;
     } else if(gameStage >= VIRUS_RELIEF_MED_STAGE) {
@@ -152,7 +152,7 @@ void gameStageStart() {
     } else {
         gameVirusReliefTime = VIRUS_RELIEF_LOW;
     }
-    
+
     Print(14, 3, virusString);
     PrintByte(29, 3, gameVirusesTotal, 0);
     Print(0, 3, levelString);
@@ -162,22 +162,21 @@ void gameStageStart() {
 void gameStageSetFactors() {
     //More linear difficulty curve
     if(gameStage == 1) {
-        gameVirusExtFactor = VIRUS_STARTING_FACTOR / 2;
-    } else if(gameVirusExtFactor - VIRUS_SPEED_FACTOR > gameVirusExtFactor) {
-        gameVirusExtFactor = 0;
+        gameVirusCurrentFactor = VIRUS_STARTING_FACTOR;
+    } else if(gameVirusCurrentFactor <= VIRUS_END_FACTOR) {
+        gameVirusCurrentFactor = VIRUS_END_FACTOR;
     } else {
-        gameVirusExtFactor -= VIRUS_SPEED_FACTOR;
+        gameVirusCurrentFactor -= VIRUS_SPEED_FACTOR;
     }
-    gameVirusCurrentFactor = (VIRUS_STARTING_FACTOR / 2) + gameVirusExtFactor;
 }
 
 void gameStageUp() {
     if(gameStage < 255) {
         gameStage++;
     }
-    
+
     playerTime = 7;
-            
+
     playerLocation = LOCATION_GREEN;
     playerLocationTime = 0;
     DrawMap(0, 12, gfxMapLongBlank);
@@ -193,14 +192,14 @@ void gameRunAllCollisions() {
     u8 i, j;
 
     i = 0;
-    
+
     //All shot to virus collisions, include flash, are here.
     while(i < VIRUS_POOL_TOTAL) {
         if(!virusActive[i] || playerLocation != virusLocation[i] || virusDieTime[i] > 0) {
             i++;
             continue;
         }
-        
+
         //Flash comes first, destroy all if true
         if(playerFlashTick) {
             virusDestroy(i);
@@ -243,7 +242,7 @@ void gameRunAllCollisions() {
         }
         i++;
     }
-    
+
     //Check to see if viral shot kills player, or flash outdoes them
     i = SHOT_VIRAL_COUNT + SHOT_VIRAL_START;
     while(i-- > SHOT_VIRAL_START) {

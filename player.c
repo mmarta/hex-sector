@@ -21,7 +21,7 @@ u8 playerCheckAllShotsFree();
 
 void playerStart() {
     u8 i;
-    
+
     playerLocation = LOCATION_GREEN;
     playerLives = 3;
     playerTime = 0;
@@ -44,7 +44,7 @@ void playerStart() {
     Print(21, 4, flashString);
     PrintLong(7, 1, playerScore);
     PrintByte(29, 4, playerFlash, 0);
-    
+
     i = playerLives - 1;
     while(i--) {
         DrawMap(i, 2, gfxLife);
@@ -112,7 +112,7 @@ void playerInput() {
     } else {
         playerFireB = 0;
     }
-    
+
     if(pad & BTN_B) {
         if(!playerFlashB && playerLocationTime == 0 && playerFlash) {
             playerFlashTick = 1;
@@ -164,10 +164,10 @@ void playerUpdate() {
             playerLocationTime = 0;
             playerLives--;
             DrawMap(playerLives - 1, 2, gfxMapBlank8);
-            
+
             playerFlash = 1;
             PrintByte(29, 4, playerFlash, 0);
-            
+
             locationClear();
             if(playerLives > 0) {
                 Print(12, 13, readyString);
@@ -206,7 +206,7 @@ void playerAddScore(u16 score) {
     if(playerScore < 10000000) {
         playerScore += score;
         PrintLong(7, 1, playerScore);
-        
+
         if(score >= playerToNext) {
             if(playerLives < 255) {
                 playerLives++;
@@ -214,16 +214,16 @@ void playerAddScore(u16 score) {
                     DrawMap(playerLives - 2, 2, gfxLife);
                 }
             }
-            
+
             if(playerFlash < 255) {
                 playerFlash++;
                 PrintByte(29, 4, playerFlash, 0);
             }
-            
+
             playerToNext += 80000;
         }
         playerToNext -= score;
-        
+
         if(playerScore > machineHi) {
             machineHi = playerScore;
             PrintLong(29, 1, machineHi);
@@ -279,5 +279,5 @@ void playerDraw() {
 }
 
 void playerDrawStats() {
-    
+
 }
