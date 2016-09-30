@@ -5,7 +5,7 @@
 int main() {
     //Initialize system
     machineInit();
-    gameStart();
+    //gameStart();
 
     while(1) {
         WaitVsync(1);

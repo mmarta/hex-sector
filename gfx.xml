@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <gfx-xform version="1">
-    <input file="img/gfx.data" type="raw" tile-width="8" tile-height="8" width="256" height="48" />
+    <input file="img/gfx.data" type="raw" tile-width="8" tile-height="8" width="256" height="64" />
     <output file="data/gfx.inc">
         <tiles var-name="gfxTiles" />
         <maps pointers-size="8">
@@ -46,6 +46,10 @@
             <map var-name="gfxBlockAngry" left="22" top="4" width="1" height="1" />
             <map var-name="gfxArrow" left="18" top="4" width="1" height="1" />
             <map var-name="gfxLife" left="19" top="4" width="1" height="1" />
+
+            <map var-name="gfxLogoH" left="23" top="4" width="2" height="2" />
+            <map var-name="gfxLogoE" left="25" top="4" width="4" height="4" />
+            <map var-name="gfxLogoX" left="29" top="4" width="2" height="2" />
 
             <map var-name="gfxMapBlank8" left="0" top="0" width="1" height="1" />
         </maps>

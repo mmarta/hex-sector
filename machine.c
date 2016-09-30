@@ -1,6 +1,6 @@
 #include "machine.h"
 
-u8 machineCredits = 0, machineTitleMode = 0, machineInputB[] = {0, 0, 0, 0};
+u8 machineCredits = 0, machineTitleMode = 1, machineInputB[] = {0, 0, 0, 0};
 unsigned long machineHi = 10000;
 const char machineCreditString[] PROGMEM = "CREDIT";
 const char machineHiString[] PROGMEM = "HI";
@@ -16,10 +16,10 @@ void machineInit() {
     SetSpritesTileTable(gfxTilesSprite);
     SetSpriteVisibility(1);
     gfxLoadIndexSprite();
-    
+
     PrintByte(18, 27, machineCredits, 0);
     Print(11, 27, machineCreditString);
-    
+
     Print(25, 0, machineHiString);
     PrintLong(29, 1, machineHi);
 }

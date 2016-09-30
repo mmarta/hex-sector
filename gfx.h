@@ -51,6 +51,10 @@ extern const char gfxBlockAngry[];
 extern const char gfxArrow[];
 extern const char gfxLife[];
 
+extern const char gfxLogoH[];
+extern const char gfxLogoE[];
+extern const char gfxLogoX[];
+
 extern const char gfxMapBlank8[];
 extern const char gfxMapBlank16[];
 extern const char gfxMapBigBlank[];
