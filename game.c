@@ -153,6 +153,7 @@ void gameStageStart() {
         gameVirusReliefTime = VIRUS_RELIEF_LOW;
     }
 
+    DrawMap(PLAYER_X, 0, gfxMapBlank16);
     Print(14, 3, virusString);
     PrintByte(29, 3, gameVirusesTotal, 0);
     Print(0, 3, levelString);

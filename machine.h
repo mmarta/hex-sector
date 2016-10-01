@@ -9,6 +9,6 @@ extern unsigned long machineHi;
 extern const char machineCreditString[], machineHiString[];
 
 void machineInit();
-void machineCheckCoinStart();
+u8 machineCheckCoinStart();
 
 #endif

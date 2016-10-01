@@ -3,20 +3,31 @@
 #include "title.h"
 
 int main() {
+    u8 start;
+    
     //Initialize system
     machineInit();
-    //gameStart();
 
     while(1) {
         WaitVsync(1);
 
         //Update & inputs
-        machineCheckCoinStart();
+        start = machineCheckCoinStart();
 
         if(machineTitleMode) {
+            if(start && titleTime < 1500) {
+                titleTime = 1700;
+            } else if(titleTime == 1800) {
+                machineTitleMode = 0;
+                gameStart();
+            }
+
             titleUpdate();
         } else {
             gameUpdate();
+            if(machineTitleMode) {
+                titleReset();
+            }
         }
     }
 }

@@ -23,9 +23,9 @@ void playerStart() {
     u8 i;
 
     playerLocation = LOCATION_GREEN;
-    playerLives = 3;
+    playerLives = 4;
     playerTime = 0;
-    playerDieTime = 0;
+    playerDieTime = 30;
     playerLocationTime = 0;
     playerFlash = 1;
 

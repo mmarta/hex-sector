@@ -51,6 +51,11 @@
             <map var-name="gfxLogoE" left="25" top="4" width="4" height="4" />
             <map var-name="gfxLogoX" left="29" top="4" width="2" height="2" />
 
+            <map var-name="gfxPlayerBare" left="0" top="6" width="2" height="2" />
+            <map var-name="gfxPlayerHook" left="2" top="6" width="2" height="2" />
+            <map var-name="gfxWire" left="4" top="6" width="2" height="1" />
+            <map var-name="gfxHook" left="6" top="6" width="2" height="1" />
+
             <map var-name="gfxMapBlank8" left="0" top="0" width="1" height="1" />
         </maps>
     </output>

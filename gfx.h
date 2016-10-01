@@ -55,10 +55,16 @@ extern const char gfxLogoH[];
 extern const char gfxLogoE[];
 extern const char gfxLogoX[];
 
+extern const char gfxPlayerBare[];
+extern const char gfxPlayerHook[];
+extern const char gfxWire[];
+extern const char gfxHook[];
+
 extern const char gfxMapBlank8[];
 extern const char gfxMapBlank16[];
 extern const char gfxMapBigBlank[];
 extern const char gfxMapLongBlank[];
+extern const char gfxMapTitleBlank[];
 
 //Sprite tiles
 
