@@ -196,11 +196,6 @@ void gameRunAllCollisions() {
 
     //All shot to virus collisions, include flash, are here.
     while(i < VIRUS_POOL_TOTAL) {
-        if(!virusActive[i] || playerLocation != virusLocation[i] || virusDieTime[i] > 0) {
-            i++;
-            continue;
-        }
-
         //Flash comes first, destroy all if true
         if(playerFlashTick) {
             virusDestroy(i);
@@ -211,6 +206,12 @@ void gameRunAllCollisions() {
                 gameKillCount = gameVirusesTotal;
             }
             PrintByte(29, 3, gameVirusesTotal - gameKillCount, 0);
+            i++;
+            continue;
+        }
+
+        //Check to see if any other collisions are valid?
+        if(!virusActive[i] || playerLocation != virusLocation[i] || virusDieTime[i] > 0) {
             i++;
             continue;
         }

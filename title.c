@@ -7,6 +7,8 @@ const char sectorStr[] PROGMEM = "SECTOR";
 const char copyStr[] PROGMEM = "@2016 ARXENGINE";
 const char barkyStr1[] PROGMEM = "DESIGN, PROGRAM AND MEDIA";
 const char barkyStr2[] PROGMEM = "BY MARC \"BARKY\" MARTA";
+const char extendStr1[] PROGMEM = "NEXT FIGHTER AT 50000";
+const char extendStr2[] PROGMEM = "AND EVERY 80000 AFTER";
 const char pressStartStr[] PROGMEM = "PRESS  START";
 const char insertCoinStr[] PROGMEM = "INSERT  COIN";
 
@@ -15,7 +17,7 @@ const char blankStr[] PROGMEM = "        ";
 const char instructionScene1Str1[] PROGMEM = "   YOU ARE THE HEX-FIGHTER!   ";
 const char instructionScene1Str2[] PROGMEM = "  YOU NAVIGATE THE 6 SECTORS  ";
 const char instructionScene1Str3[] PROGMEM = "   BY MOVING LEFT AND RIGHT   ";
-const char instructionScene1Str4[] PROGMEM = "  AND FIRING WITH THE BUTTON. ";
+const char instructionScene1Str4[] PROGMEM = "   AND FIRING WITH BUTTON 1.  ";
 
 const char instructionScene2Str1[] PROGMEM = " VIRAL THREATS WILL COME OUT  ";
 const char instructionScene2Str2[] PROGMEM = "   OF EACH SECTOR, AND MUST   ";
@@ -23,13 +25,13 @@ const char instructionScene2Str3[] PROGMEM = "   BE DESTROYED BEFORE THEY   ";
 const char instructionScene2Str4[] PROGMEM = " REACH THE EDGE OF THE FIELD. ";
 
 const char instructionScene3Str1[] PROGMEM = "  BEWARE OF THE ANGRY VIRUS!  ";
-const char instructionScene3Str2[] PROGMEM = "THEY CROSS OVER AND ARE FAST. ";
-const char instructionScene3Str3[] PROGMEM = " YOU CAN KILL ALL VIRUSES ON  ";
-const char instructionScene3Str4[] PROGMEM = "SCREEN WITH THE FLASH BUTTON. ";
+const char instructionScene3Str2[] PROGMEM = " THEY CROSS OVER AND ARE FAST.";
+const char instructionScene3Str3[] PROGMEM = "YOU CAN KILL ALL VIRUSES WITH ";
+const char instructionScene3Str4[] PROGMEM = " YOUR FLASH SUPPLY (BUTTON 2).";
 
 const char instructionScene4Str1[] PROGMEM = " YOU CAN SEE WHICH SECTOR YOU ";
 const char instructionScene4Str2[] PROGMEM = "    ARE IN WITH THIS GUIDE.   ";
-const char instructionScene4Str3[] PROGMEM = " YOU CAN CROSS AT THE EDGES.  ";
+const char instructionScene4Str3[] PROGMEM = "  YOU CAN CROSS AT THE EDGES. ";
 const char instructionScene4Str4[] PROGMEM = " SHOTS VANISH WHEN YOU LEAVE. ";
 
 void titleUpdate() {
@@ -50,12 +52,14 @@ void titleUpdate() {
                 DrawMap(17, 9, gfxLogoX);
                 break;
             case 135:
-                Print(12, 14, sectorStr);
+                Print(12, 13, sectorStr);
                 break;
             case 175:
                 Print(7, 17, copyStr);
                 Print(2, 19, barkyStr1);
                 Print(4, 20, barkyStr2);
+                Print(4, 22, extendStr1);
+                Print(4, 23, extendStr2);
                 break;
             //535- is for instructions
             case 535:
@@ -133,10 +137,12 @@ void titleUpdate() {
             DrawMap(11, 9, gfxLogoH);
             DrawMap(13, 8, gfxLogoE);
             DrawMap(17, 9, gfxLogoX);
-            Print(12, 14, sectorStr);
+            Print(12, 13, sectorStr);
             Print(7, 17, copyStr);
             Print(2, 19, barkyStr1);
             Print(4, 20, barkyStr2);
+            Print(4, 22, extendStr1);
+            Print(4, 23, extendStr2);
             Print(9, 25, pressStartStr);
         } else if(modTime == 0) {
             if(machineCredits == 0) {
@@ -145,7 +151,7 @@ void titleUpdate() {
                 Print(9, 25, pressStartStr);
             }
         } else if(modTime == 40) {
-            DrawMap(0, 23, gfxMapLongBlank);
+            DrawMap(0, 24, gfxMapLongBlank);
         }
     } else {
         //Ship coming down!
