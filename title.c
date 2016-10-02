@@ -5,6 +5,7 @@ u8 titleLastCredits;
 
 const char sectorStr[] PROGMEM = "SECTOR";
 const char copyStr[] PROGMEM = "@2016 ARXENGINE";
+const char madeInNYStr[] PROGMEM = "MADE IN NEW YORK, USA";
 const char barkyStr1[] PROGMEM = "DESIGN, PROGRAM AND MEDIA";
 const char barkyStr2[] PROGMEM = "BY MARC \"BARKY\" MARTA";
 const char extendStr1[] PROGMEM = "NEXT FIGHTER AT 50000";
@@ -32,11 +33,15 @@ const char instructionScene3Str4[] PROGMEM = " YOUR FLASH SUPPLY (BUTTON 2).";
 const char instructionScene4Str1[] PROGMEM = " YOU CAN SEE WHICH SECTOR YOU ";
 const char instructionScene4Str2[] PROGMEM = "    ARE IN WITH THIS GUIDE.   ";
 const char instructionScene4Str3[] PROGMEM = "  YOU CAN CROSS AT THE EDGES. ";
-const char instructionScene4Str4[] PROGMEM = " SHOTS VANISH WHEN YOU LEAVE. ";
+const char instructionScene4Str4[] PROGMEM = "THIS ALSO SHOWS YOU HOW CLOSE ";
+const char instructionScene4Str5[] PROGMEM = "       VIRAL THREATS ARE.     ";
+const char instructionScene4Str6[] PROGMEM = " SHOTS VANISH WHEN YOU LEAVE. ";
+const char instructionScene4Str7[] PROGMEM = "            WARNING!          ";
+const char instructionScene4Str8[] PROGMEM = "    YOUR SHOTS VANISH TOO.    ";
 
 void titleUpdate() {
     u8 modTime = titleTime % 80, hookTime;
-    if(titleTime < 1495) {
+    if(titleTime < 1555) {
         switch(titleTime) {
             //0-534 are for the actual title
             case 0:
@@ -55,7 +60,8 @@ void titleUpdate() {
                 Print(12, 13, sectorStr);
                 break;
             case 175:
-                Print(7, 17, copyStr);
+                Print(7, 16, copyStr);
+                Print(4, 17, madeInNYStr);
                 Print(2, 19, barkyStr1);
                 Print(4, 20, barkyStr2);
                 Print(4, 22, extendStr1);
@@ -104,6 +110,10 @@ void titleUpdate() {
                 Print(0, 9, instructionScene4Str2);
                 Print(0, 10, instructionScene4Str3);
                 Print(0, 11, instructionScene4Str4);
+                Print(0, 12, instructionScene4Str5);
+                Print(0, 15, instructionScene4Str6);
+                Print(0, 16, instructionScene4Str7);
+                Print(0, 17, instructionScene4Str8);
                 break;
             case 1285:
                 DrawMap(12, 6, gfxMapBlank8);
@@ -138,7 +148,8 @@ void titleUpdate() {
             DrawMap(13, 8, gfxLogoE);
             DrawMap(17, 9, gfxLogoX);
             Print(12, 13, sectorStr);
-            Print(7, 17, copyStr);
+            Print(7, 16, copyStr);
+            Print(4, 17, madeInNYStr);
             Print(2, 19, barkyStr1);
             Print(4, 20, barkyStr2);
             Print(4, 22, extendStr1);
@@ -180,7 +191,7 @@ void titleUpdate() {
     titleLastCredits = machineCredits;
 
     titleTime++;
-    if(titleTime == 1495) {
+    if(titleTime == 1555) {
         titleTime = 0;
     }
 }
