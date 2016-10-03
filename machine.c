@@ -61,14 +61,14 @@ u8 machineCheckCoinStart() {
     //Player 1 Start
     if(padA & BTN_START && machineTitleMode) {
         if(!machineInputB[3]) {
+            machineInputB[3] = 1;
             if(machineCredits > 0) {
                 //Start!
                 machineCredits--;
                 PrintByte(18, 27, machineCredits, 0);
                 Print(11, 27, machineCreditString);
+                return 1;
             }
-            machineInputB[3] = 1;
-            return 1;
         }
     } else {
         machineInputB[3] = 0;
