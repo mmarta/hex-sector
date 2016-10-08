@@ -46,15 +46,17 @@ void gameUpdate() {
             if((!(rand() % gameVirusCurrentFactor) && gameLastVirusTime >= gameVirusReliefTime) || gameLastVirusTime >= VIRUS_RELIEF_LIMIT) {
                 isAngry = (gameStage >= VIRUS_ANGRY_SLOW_STAGE && !(rand() % 6)) ? 1 : 0;
                 gameEnqueued += virusInit(rand() % 6, isAngry);
+                PrintByte(29, 3, gameVirusesTotal - gameEnqueued, 0);
                 gameLastVirusTime = 0;
             }
         }
 
-        i = 0;
         //Start looking to go to the next level?
         if(gameKillCount < gameVirusesTotal) {
             readyNextLevel = 0;
         }
+
+        i = 0;
         while(i < VIRUS_POOL_TOTAL) {
             virusUpdate(i, gameStage);
             if(readyNextLevel) {
@@ -201,11 +203,6 @@ void gameRunAllCollisions() {
             virusDestroy(i);
             playerAddScore(400); //Only basic score on flash
             gameKillCount++;
-            //TODO: Find issue with underflow
-            if(gameKillCount > gameVirusesTotal) {
-                gameKillCount = gameVirusesTotal;
-            }
-            PrintByte(29, 3, gameVirusesTotal - gameKillCount, 0);
             i++;
             continue;
         }
@@ -234,7 +231,6 @@ void gameRunAllCollisions() {
                     playerAddScore(1600);
                 }
                 gameKillCount++;
-                PrintByte(29, 3, gameVirusesTotal - gameKillCount, 0);
             }
             j++;
         }
