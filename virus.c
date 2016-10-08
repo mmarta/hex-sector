@@ -25,22 +25,28 @@ u8 virusInit(u8 loc, u8 isAngry) {
             virusActive[i] = 1;
             virusDieTime[i] = 0;
             virusDraw(i);
+            locationSetMaxIntensity(virusLocation[i], 1, isAngry);
+            if(isAngry) {
+                TriggerFx(PATCH_VIRUS_ANGRY_APPEAR, 255, 1);
+            } else {
+                TriggerFx(PATCH_VIRUS_APPEAR, 170, 1);
+            }
             return 1;
         }
 
         i++;
     }
-    
+
     return 0;
 }
 
 void virusUpdate(u8 i, u8 stage) {
     u8 angerFactor, shotFactor, angryMovementCondition;
-    
+
     if(!virusActive[i]) {
         return;
     }
-    
+
     //Set anger factor & shot factors
     if(stage >= VIRUS_ANGRY_FAST_STAGE) {
         //Pick random between fast & slow
@@ -49,7 +55,7 @@ void virusUpdate(u8 i, u8 stage) {
         //Just use slow
         angerFactor = VIRUS_ANGRY_SLOW_FACTOR;
     }
-    
+
     if(stage >= VIRUS_SHOT_HOT_STAGE) {
         shotFactor = VIRUS_SHOT_HOT_FACTOR;
     } else if(stage >= VIRUS_SHOT_MEDIUM_STAGE) {
@@ -106,13 +112,13 @@ void virusUpdate(u8 i, u8 stage) {
                 virusNextMoveTime[i] -= 1;
             }
         }
-        
+
         //Angry virus specific stuff
         if(virusIsAngry[i] && virusY[i] % angerFactor == 0) {
             //Clear the current threat before moving.
             locationClearThreat(virusLocation[i]);
             angryMovementCondition = (angerFactor == VIRUS_ANGRY_FAST_FACTOR) ? virusAngryDir[i] : rand() % 2;
-            
+
             if(angryMovementCondition) {
                 virusLocation[i] = virusLocation[i] + 1;
                 if(virusLocation[i] == 6) {
@@ -125,12 +131,12 @@ void virusUpdate(u8 i, u8 stage) {
                 }
             }
         }
-        
+
         //Shoot?
         if(!(rand() % shotFactor) && virusLocation[i] == playerLocation && playerLocationTime == 0 && virusY[i] <= 12) {
             shotInitViral(virusY[i] << 3);
         }
-        
+
         if(virusY[i] <= 12) {
             locationSetMaxIntensity(virusLocation[i], 1, virusIsAngry[i]);
         } else if(virusY[i] <= 16) {
@@ -152,6 +158,7 @@ void virusUpdate(u8 i, u8 stage) {
 void virusDestroy(u8 i) {
     virusDieTime[i] = 1;
     locationClearThreat(virusLocation[i]);
+    TriggerFx(PATCH_VIRUS_KILL, 255, 1);
 }
 
 void virusErase(u8 i) {
@@ -179,7 +186,7 @@ void virusDraw(u8 i) {
         }
         return;
     }
-    
+
     //Angry Virus????
     if(virusIsAngry[i]) {
         DrawMap(VIRUS_X, virusY[i], gfxVirusCloseAngry);

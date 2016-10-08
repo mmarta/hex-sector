@@ -3,6 +3,7 @@
 
 #include "const.h"
 #include "gfx.h"
+#include "audio.h"
 
 extern u8 machineCredits, machineTitleMode, machineInputB[];
 extern unsigned long machineHi;

@@ -17,6 +17,8 @@ void machineInit() {
     SetSpriteVisibility(1);
     gfxLoadIndexSprite();
 
+    InitMusicPlayer(patches);
+
     PrintByte(18, 27, machineCredits, 0);
     Print(11, 27, machineCreditString);
 
@@ -67,6 +69,9 @@ u8 machineCheckCoinStart() {
                 machineCredits--;
                 PrintByte(18, 27, machineCredits, 0);
                 Print(11, 27, machineCreditString);
+                TriggerFx(PATCH_START_A, 255, 1);
+                TriggerFx(PATCH_START_B, 255, 1);
+                TriggerFx(PATCH_START_C, 255, 1);
                 return 1;
             }
         }
@@ -81,6 +86,7 @@ u8 machineCheckCoinStart() {
 void machineAddCoin() {
     if(machineCredits < 9) {
         machineCredits++;
+        TriggerFx(PATCH_COIN_UP, 255, 1);
         PrintByte(18, 27, machineCredits, 0);
         Print(11, 27, machineCreditString);
     }

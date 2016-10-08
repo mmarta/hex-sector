@@ -77,6 +77,7 @@ void playerInput() {
                 shotFree(i);
             }
 
+            TriggerFx(PATCH_PLAYER_MOVE, 255, 1);
             playerLeftB = 1;
         }
     } else {
@@ -98,6 +99,7 @@ void playerInput() {
                 shotFree(i);
             }
 
+            TriggerFx(PATCH_PLAYER_MOVE, 255, 1);
             playerRightB = 1;
         }
     } else {
@@ -117,6 +119,7 @@ void playerInput() {
         if(!playerFlashB && playerLocationTime == 0 && playerFlash) {
             playerFlashTick = 1;
             playerFlash--;
+            TriggerFx(PATCH_FLASH, 255, 1);
             PrintByte(29, 4, playerFlash, 0);
             playerFlashB = 1;
         }
@@ -173,6 +176,9 @@ void playerUpdate() {
                 Print(12, 13, readyString);
             } else {
                 Print(10, 13, gameOverString);
+                TriggerFx(PATCH_GAME_OVER_A, 255, 1);
+                TriggerFx(PATCH_GAME_OVER_B, 255, 1);
+                TriggerFx(PATCH_GAME_OVER_C, 255, 1);
             }
 
             //Clear shots
@@ -183,7 +189,7 @@ void playerUpdate() {
                 }
                 i++;
             }
-        } else if(playerDieTime == 120) {
+        } else if(playerDieTime == 120 && playerLives > 0) {
             playerDieTime = 0;
             playerTime = 0;
 
@@ -191,6 +197,10 @@ void playerUpdate() {
             playerDraw();
             locationDraw(playerLocation, playerLastLocation, playerLocationTime);
             locationShowAll(playerLocation);
+            return;
+        } else if(playerDieTime == 240 && playerLives == 0) {
+            playerDieTime = 0;
+            playerTime = 0;
             return;
         }
 
@@ -200,6 +210,7 @@ void playerUpdate() {
 
 void playerKill() {
     playerDieTime = 1;
+    TriggerFx(PATCH_PLAYER_KILL, 255, 1);
 }
 
 void playerAddScore(u16 score) {

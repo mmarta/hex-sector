@@ -3,6 +3,7 @@
 
 #include "const.h"
 #include "gfx.h"
+#include "audio.h"
 
 extern u8 shotY[], shotActive[], shotIsViral[];
 

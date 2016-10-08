@@ -3,6 +3,7 @@
 
 #include "const.h"
 #include "gfx.h"
+#include "audio.h"
 #include "machine.h"
 #include "location.h"
 #include "shot.h"

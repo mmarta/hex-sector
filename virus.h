@@ -3,6 +3,7 @@
 
 #include "const.h"
 #include "gfx.h"
+#include "audio.h"
 #include "location.h"
 #include "player.h"
 

@@ -47,7 +47,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Objects that must be built in order to link
-OBJECTS = uzeboxVideoEngineCore.o uzeboxCore.o uzeboxSoundEngine.o uzeboxSoundEngineCore.o uzeboxVideoEngine.o gfx.o location.o shot.o player.o virus.o machine.o game.o title.o main.o
+OBJECTS = uzeboxVideoEngineCore.o uzeboxCore.o uzeboxSoundEngine.o uzeboxSoundEngineCore.o uzeboxVideoEngine.o gfx.o audio.o location.o shot.o player.o virus.o machine.o game.o title.o main.o
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS =
@@ -78,6 +78,9 @@ uzeboxVideoEngine.o: $(KERNEL_DIR)/uzeboxVideoEngine.c
 gfx.o: gfx.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o gfx.o
 
+audio.o: audio.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o audio.o
+
 location.o: location.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o location.o
 
@@ -92,10 +95,10 @@ virus.o: virus.c
 
 machine.o: machine.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o machine.o
-	
+
 game.o: game.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o game.o
-	
+
 title.o: title.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o title.o
 

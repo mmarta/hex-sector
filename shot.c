@@ -21,6 +21,7 @@ void shotInitPlayer() {
             MoveSprite(gfxOtherI, shotXB[i], shotY[i], 1, 1);
             shotActive[i] = 1;
             shotIsViral[i] = 0;
+            TriggerFx(PATCH_PLAYER_FIRE, 255, 1);
             return;
         }
         c++;
@@ -39,7 +40,7 @@ void shotInitViral(u8 y) {
         if(!shotActive[i]) {
             gfxI = gfxIndexSpriteShot[c + SHOT_VIRAL_SPRITE_START];
             shotXA[i] = (PLAYER_X << 3) + 4;
-            
+
             if(y < 54) {
                 MapSprite(gfxI, gfxSpriteMissileTiny);
                 shotSize[i] = 0;
@@ -50,11 +51,12 @@ void shotInitViral(u8 y) {
                 MapSprite(gfxI, gfxSpriteMissileMedium);
                 shotSize[i] = 1;
             }
-            
+
             shotY[i] = y;
             MoveSprite(gfxI, shotXA[i], shotY[i], 1, 1);
             shotActive[i] = 1;
             shotIsViral[i] = 1;
+            TriggerFx(PATCH_VIRUS_FIRE, 255, 1);
             return;
         }
         c++;
@@ -68,7 +70,7 @@ void shotUpdate(u8 i) {
         if(!shotIsViral[i]) {
             gfxI = gfxIndexSpriteShot[(i - SHOT_PLAYER_START) << 1];
             gfxOtherI = gfxIndexSpriteShot[((i - SHOT_PLAYER_START) << 1) + 1];
-        
+
             if(shotY[i] < (BG_Y << 3)) {
                 shotFree(i);
             } else {
@@ -107,7 +109,7 @@ void shotUpdate(u8 i) {
             }
         } else { //Viral shot
             gfxI = gfxIndexSpriteShot[i - SHOT_VIRAL_START + SHOT_VIRAL_SPRITE_START];
-        
+
             if(shotY[i] >= 154) {
                 if(shotSize[i] == 2) {
                     shotSize[i]++;
@@ -149,7 +151,7 @@ void shotFree(u8 i) {
         }
     } else {
         gfxI = gfxIndexSpriteShot[i - SHOT_VIRAL_START + SHOT_VIRAL_SPRITE_START];
-        
+
         if(shotActive[i]) {
             shotActive[i] = 0;
             MapSprite(gfxI, gfxMapSpriteBlank);

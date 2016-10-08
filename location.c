@@ -10,24 +10,23 @@ u8 locationAngry[LOCATION_COUNT];
 void locationDrawBlock(u8);
 
 void locationUpdate(u8 i) {
-    switch(locationIntensity[i]) {
-        case 0:
-            return;
-        default:
-            locationTime[i] += (1 << locationIntensity[i]);
-            if(locationTime[i] >= 64) {
-                locationTime[i] = 0;
-            }
+    if(!locationIntensity[i]) {
+        return;
     }
-    
-    if(locationTime[i] < 32) {
+
+    if(locationTime[i] == 0) {
         DrawMap(12 + i, LOCATION_INDICATOR_Y, gfxMapBlank8);
-    } else {
+    } else if(locationTime[i] == 32) {
         if(locationAngry[i]) {
             DrawMap(12 + i, LOCATION_INDICATOR_Y, gfxBlockAngry);
         } else {
             locationDrawBlock(i);
         }
+    }
+
+    locationTime[i] += (1 << locationIntensity[i]);
+    if(locationTime[i] >= 64) {
+        locationTime[i] = 0;
     }
 }
 
@@ -213,7 +212,7 @@ void locationClear() {
     DrawMap(8, BG_Y, gfxMapBigBlank);
     DrawMap(16, BG_Y, gfxMapBigBlank);
     DrawMap(22, BG_Y, gfxMapBigBlank);
-    
+
     DrawMap(0, LOCATION_INDICATOR_Y + 1, gfxMapLongBlank);
 }
 
