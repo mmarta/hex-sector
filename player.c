@@ -224,6 +224,7 @@ void playerAddScore(u16 score) {
                 if(playerLives <= 6) {
                     DrawMap(playerLives - 2, 2, gfxLife);
                 }
+                TriggerFx(PATCH_PLAYER_EXTEND, 255, 1);
             }
 
             if(playerFlash < 255) {
