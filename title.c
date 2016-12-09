@@ -4,6 +4,7 @@ u16 titleTime;
 u8 titleLastCredits;
 
 const char sectorStr[] PROGMEM = "SECTOR";
+const char cgrStr[] PROGMEM = "CGR EDITION";
 const char copyStr[] PROGMEM = "@2016 ARXENGINE";
 const char madeInNYStr[] PROGMEM = "MADE IN NEW YORK, USA";
 const char barkyStr1[] PROGMEM = "DESIGN, PROGRAM AND MEDIA";
@@ -39,9 +40,18 @@ const char instructionScene4Str6[] PROGMEM = " SHOTS VANISH WHEN YOU LEAVE. ";
 const char instructionScene4Str7[] PROGMEM = "            WARNING!          ";
 const char instructionScene4Str8[] PROGMEM = "    YOUR SHOTS VANISH TOO.    ";
 
+const char cgrSceneStr1[] PROGMEM = "   THIS VERSION WAS A GIFT    ";
+const char cgrSceneStr2[] PROGMEM = " JUST FOR CLASSIC GAME ROOM.  ";
+const char cgrSceneStr3[] PROGMEM = "  THANK YOU, MARK, FOR YOUR   ";
+const char cgrSceneStr4[] PROGMEM = "  CONTINUED INSPIRATION FOR   ";
+const char cgrSceneStr5[] PROGMEM = "MANY OF US BELIEVERS. AND NOW ";
+const char cgrSceneStr6[] PROGMEM = " CGR HAS A LITTLE ARCADE GAME ";
+const char cgrSceneStr7[] PROGMEM = "     IT CAN CALL ITS OWN.     ";
+const char cgrSceneStr8[] PROGMEM = "            ENJOY!            ";
+
 void titleUpdate() {
     u8 modTime = titleTime % 80, hookTime;
-    if(titleTime < 1555) {
+    if(titleTime < 1855) {
         switch(titleTime) {
             //0-534 are for the actual title
             case 0:
@@ -60,6 +70,7 @@ void titleUpdate() {
                 Print(12, 13, sectorStr);
                 break;
             case 175:
+                Print(9, 14, cgrStr);
                 Print(7, 16, copyStr);
                 Print(4, 17, madeInNYStr);
                 Print(2, 19, barkyStr1);
@@ -139,6 +150,17 @@ void titleUpdate() {
                 DrawMap(17, 6, gfxMapBlank8);
                 DrawMap(12, 6, gfxArrow);
                 break;
+            case 1555:
+                DrawMap(0, 2, gfxMapTitleBlank);
+                Print(0, 8, cgrSceneStr1);
+                Print(0, 9, cgrSceneStr2);
+                Print(0, 11, cgrSceneStr3);
+                Print(0, 12, cgrSceneStr4);
+                Print(0, 13, cgrSceneStr5);
+                Print(0, 14, cgrSceneStr6);
+                Print(0, 15, cgrSceneStr7);
+                Print(0, 17, cgrSceneStr8);
+                break;
         }
 
         if(titleLastCredits < machineCredits) {
@@ -149,6 +171,7 @@ void titleUpdate() {
             DrawMap(17, 9, gfxLogoX);
             Print(12, 13, sectorStr);
             Print(7, 16, copyStr);
+            Print(9, 14, cgrStr);
             Print(4, 17, madeInNYStr);
             Print(2, 19, barkyStr1);
             Print(4, 20, barkyStr2);
@@ -166,7 +189,7 @@ void titleUpdate() {
         }
     } else {
         //Ship coming down!
-        hookTime = titleTime - 1700;
+        hookTime = titleTime - 2000;
         if(hookTime < 50) {
             if(hookTime == 0) {
                 DrawMap(0, 2, gfxMapTitleBlank);
@@ -191,7 +214,7 @@ void titleUpdate() {
     titleLastCredits = machineCredits;
 
     titleTime++;
-    if(titleTime == 1555) {
+    if(titleTime == 1855) {
         titleTime = 0;
     }
 }
