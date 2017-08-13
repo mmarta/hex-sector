@@ -4,7 +4,7 @@ u16 titleTime;
 u8 titleLastCredits;
 
 const char sectorStr[] PROGMEM = "SECTOR";
-const char copyStr[] PROGMEM = "@2016 ARXENGINE";
+const char copyStr[] PROGMEM = "@2016 NY JAMMA ARCADE ENGINE";
 const char madeInNYStr[] PROGMEM = "MADE IN NEW YORK, USA";
 const char barkyStr1[] PROGMEM = "DESIGN, PROGRAM AND MEDIA";
 const char barkyStr2[] PROGMEM = "BY MARC \"BARKY\" MARTA";
@@ -60,7 +60,7 @@ void titleUpdate() {
                 Print(12, 13, sectorStr);
                 break;
             case 175:
-                Print(7, 16, copyStr);
+                Print(1, 16, copyStr);
                 Print(4, 17, madeInNYStr);
                 Print(2, 19, barkyStr1);
                 Print(4, 20, barkyStr2);
