@@ -148,7 +148,7 @@ void titleUpdate() {
             DrawMap(13, 8, gfxLogoE);
             DrawMap(17, 9, gfxLogoX);
             Print(12, 13, sectorStr);
-            Print(7, 16, copyStr);
+            Print(1, 16, copyStr);
             Print(4, 17, madeInNYStr);
             Print(2, 19, barkyStr1);
             Print(4, 20, barkyStr2);
