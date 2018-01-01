@@ -22,8 +22,8 @@ void machineInit() {
     PrintByte(18, 27, machineCredits, 0);
     Print(11, 27, machineCreditString);
 
-    Print(25, 0, machineHiString);
-    PrintLong(29, 1, machineHi);
+    Print(24, 0, machineHiString);
+    PrintLong(28, 1, machineHi);
 }
 
 //Checks coin up & player start inputs

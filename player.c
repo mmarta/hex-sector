@@ -40,14 +40,14 @@ void playerStart() {
     locationDraw(playerLocation, playerLastLocation, playerLocationTime);
     locationShowAll(playerLocation);
     playerDraw();
-    Print(0, 0, scoreString);
-    Print(21, 4, flashString);
-    PrintLong(7, 1, playerScore);
-    PrintByte(29, 4, playerFlash, 0);
+    Print(1, 0, scoreString);
+    Print(20, 4, flashString);
+    PrintLong(8, 1, playerScore);
+    PrintByte(28, 4, playerFlash, 0);
 
     i = playerLives - 1;
     while(i--) {
-        DrawMap(i, 2, gfxLife);
+        DrawMap(i + 1, 2, gfxLife);
     }
 }
 
@@ -120,7 +120,7 @@ void playerInput() {
             playerFlashTick = 1;
             playerFlash--;
             TriggerFx(PATCH_FLASH, 255, 1);
-            PrintByte(29, 4, playerFlash, 0);
+            PrintByte(28, 4, playerFlash, 0);
             playerFlashB = 1;
         }
     } else {
@@ -166,10 +166,10 @@ void playerUpdate() {
         } else if(playerDieTime == 30) {
             playerLocationTime = 0;
             playerLives--;
-            DrawMap(playerLives - 1, 2, gfxMapBlank8);
+            DrawMap(playerLives, 2, gfxMapBlank8);
 
             playerFlash = 1;
-            PrintByte(29, 4, playerFlash, 0);
+            PrintByte(28, 4, playerFlash, 0);
 
             locationClear();
             if(playerLives > 0) {
@@ -216,20 +216,20 @@ void playerKill() {
 void playerAddScore(u16 score) {
     if(playerScore < 10000000) {
         playerScore += score;
-        PrintLong(7, 1, playerScore);
+        PrintLong(8, 1, playerScore);
 
         if(score >= playerToNext) {
             if(playerLives < 255) {
                 playerLives++;
                 if(playerLives <= 6) {
-                    DrawMap(playerLives - 2, 2, gfxLife);
+                    DrawMap(playerLives - 1, 2, gfxLife);
                 }
                 TriggerFx(PATCH_PLAYER_EXTEND, 255, 1);
             }
 
             if(playerFlash < 255) {
                 playerFlash++;
-                PrintByte(29, 4, playerFlash, 0);
+                PrintByte(28, 4, playerFlash, 0);
             }
 
             playerToNext += 80000;
@@ -238,7 +238,7 @@ void playerAddScore(u16 score) {
 
         if(playerScore > machineHi) {
             machineHi = playerScore;
-            PrintLong(29, 1, machineHi);
+            PrintLong(28, 1, machineHi);
         }
     }
 }

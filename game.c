@@ -46,7 +46,7 @@ void gameUpdate() {
             if((!(rand() % gameVirusCurrentFactor) && gameLastVirusTime >= gameVirusReliefTime) || gameLastVirusTime >= VIRUS_RELIEF_LIMIT) {
                 isAngry = (gameStage >= VIRUS_ANGRY_SLOW_STAGE && !(rand() % 6)) ? 1 : 0;
                 gameEnqueued += virusInit(rand() % 6, isAngry);
-                PrintByte(29, 3, gameVirusesTotal - gameEnqueued, 0);
+                PrintByte(28, 3, gameVirusesTotal - gameEnqueued, 0);
                 gameLastVirusTime = 0;
             }
         }
@@ -156,10 +156,10 @@ void gameStageStart() {
     }
 
     DrawMap(PLAYER_X, 0, gfxMapBlank16);
-    Print(14, 3, virusString);
-    PrintByte(29, 3, gameVirusesTotal, 0);
-    Print(0, 3, levelString);
-    PrintByte(5, 3, gameStage, 0);
+    Print(13, 3, virusString);
+    PrintByte(28, 3, gameVirusesTotal, 0);
+    Print(1, 3, levelString);
+    PrintByte(6, 3, gameStage, 0);
 }
 
 void gameStageSetFactors() {

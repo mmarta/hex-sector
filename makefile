@@ -56,7 +56,7 @@ LINKONLYOBJECTS =
 INCLUDES = -I"$(KERNEL_DIR)"
 
 ## Build
-all: $(TARGET) $(GAME).hex $(GAME).uze size
+all: $(TARGET) $(GAME).hex $(GAME).uze size clean
 
 ## Compile Kernel files
 uzeboxVideoEngineCore.o: $(KERNEL_DIR)/uzeboxVideoEngineCore.s
@@ -113,7 +113,7 @@ $(TARGET): $(OBJECTS)
 	avr-objcopy -O ihex $(HEX_FLASH_FLAGS)  $< $@
 
 %.uze: $(TARGET)
-	-$(UZEBIN_DIR)packrom $(GAME).hex $@ $(INFO)
+	-$(UZEBIN_DIR)packrom $(GAME).hex bin/$(GAME).uze $(INFO)
 
 UNAME := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 AVRSIZEFLAGS := -A ${TARGET}
@@ -129,6 +129,7 @@ size: ${TARGET}
 .PHONY: clean
 clean:
 	-rm -rf $(OBJECTS) $(GAME).* dep/*
+	-rm -r dep
 
 
 ## Other dependencies

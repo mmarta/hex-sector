@@ -202,8 +202,8 @@ void locationDraw(u8 playerLocation, u8 playerLastLocation, u8 playerLocationTim
             i++;
         }
 
-        Print(1, PLAYER_Y, leftArrowString);
-        Print(28, PLAYER_Y, rightArrowString);
+        Print(2, PLAYER_Y, leftArrowString);
+        Print(27, PLAYER_Y, rightArrowString);
     }
 }
 

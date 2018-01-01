@@ -198,6 +198,6 @@ void titleUpdate() {
 
 void titleReset() {
     titleTime = 0;
-    Print(0, 0, blankStr);
-    Print(0, 1, blankStr);
+    Print(1, 0, blankStr);
+    Print(1, 1, blankStr);
 }
