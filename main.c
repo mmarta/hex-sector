@@ -4,7 +4,7 @@
 
 int main() {
     u8 start;
-    
+
     //Initialize system
     machineInit();
 
@@ -12,11 +12,14 @@ int main() {
         WaitVsync(1);
 
         //Update & inputs
-        start = machineCheckCoinStart();
+        machineCheckCoin();
 
         if(machineTitleMode) {
-            if(start && titleTime < 1500) {
-                titleTime = 1700;
+            if(titleTime < 1500) {
+                start = machineCheckStart();
+                if(start) {
+                    titleTime = 1700;
+                }
             } else if(titleTime == 1800) {
                 machineTitleMode = 0;
                 gameStart();

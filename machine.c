@@ -27,7 +27,7 @@ void machineInit() {
 }
 
 //Checks coin up & player start inputs
-u8 machineCheckCoinStart() {
+void machineCheckCoin() {
     unsigned int padA = ReadJoypad(0);
     unsigned int padB = ReadJoypad(1);
 
@@ -59,7 +59,11 @@ u8 machineCheckCoinStart() {
     } else {
         machineInputB[2] = 0;
     }
+}
 
+u8 machineCheckStart() {
+    unsigned int padA = ReadJoypad(0);
+    
     //Player 1 Start
     if(padA & BTN_START && machineTitleMode) {
         if(!machineInputB[3]) {
