@@ -113,7 +113,7 @@ $(TARGET): $(OBJECTS)
 	avr-objcopy -O ihex $(HEX_FLASH_FLAGS)  $< $@
 
 %.uze: $(TARGET)
-	-$(UZEBIN_DIR)packrom $(GAME).hex bin/$(GAME).uze $(INFO)
+	packrom $(GAME).hex $(GAME)-program.uze $(INFO)
 
 UNAME := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 AVRSIZEFLAGS := -A ${TARGET}

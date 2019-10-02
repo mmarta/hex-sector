@@ -1,3 +1,6 @@
-
-*.hex
+hex-sector.*
 *.uze
+*.o
+dep/*
+eeprom.bin
+.DS_Store
